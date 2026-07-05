@@ -21,4 +21,4 @@ RUN chmod -R 775 storage bootstrap/cache
 
 EXPOSE 10000
 
-CMD php artisan serve --host=0.0.0.0 --port=10000
+CMD php artisan key:generate --force --quiet; php artisan migrate --seed --force --quiet; php artisan serve --host=0.0.0.0 --port=$PORT
