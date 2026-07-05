@@ -1,0 +1,80 @@
+/* @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@100;200;300;400;500;600;700&display=swap');
+
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+@layer base {
+  body {
+    @apply bg-background text-text font-sans antialiased;
+    overflow-x: hidden;
+    direction: rtl;
+    text-align: right;
+  }
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+html {
+  scroll-behavior: smooth;
+} */
+
+/* 1. الخطوط في البداية */
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@100;200;300;400;500;600;700&display=swap");
+
+/* 2. أساسيات تيلويند */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  width: 100%;
+}
+
+@layer base {
+  body {
+    /* تم تحديث الكلاسات بناءً على الـ config الجديد */
+    @apply bg-ui-bg text-content-main font-sans antialiased;
+
+    overflow-x: hidden;
+    direction: rtl;
+    text-align: right;
+  }
+}
+
+/* تحسين تجربة المستخدم */
+html {
+  scroll-behavior: smooth;
+  -webkit-tap-highlight-color: transparent; /* إزالة اللون الأزرق عند الضغط في الموبايل */
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+}
