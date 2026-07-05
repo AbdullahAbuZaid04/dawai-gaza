@@ -16,7 +16,7 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => explode(',', env('ALLOWED_ORIGINS', 'http://localhost:3000')),
+    'allowed_origins' => explode(',', env('ALLOWED_ORIGINS', 'https://dawai-gaza.vercel.app,http://localhost:3000')),
 
     'allowed_origins_patterns' => [],
 
