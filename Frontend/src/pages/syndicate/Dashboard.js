@@ -48,7 +48,7 @@ function SyndicateDashboard() {
         setPending(pendingRequests);
 
         const promotionsRes = await axios.get(`${API_BASE_URL}/promotions`);
-        setPromotionsCount(promotionsRes.data.length || 0);
+        setPromotionsCount(Array.isArray(promotionsRes.data) ? promotionsRes.data.length : promotionsRes.data?.data?.length || 0);
       } catch (error) {
         console.error("خطأ  :", error);
       } finally {
@@ -121,7 +121,7 @@ function SyndicateDashboard() {
             icon: <BusinessIcon />,
             color: "success",
             trend: "حقيقي",
-            path: "/syndicate/SyndicatePharmacies",
+            path: "/syndicate/pharmacies",
           },
           {
             title: "إجمالي الأدوية",
@@ -129,7 +129,7 @@ function SyndicateDashboard() {
             icon: <Inventory2OutlinedIcon />,
             color: "success",
             trend: "حقيقي",
-            path: "/syndicate/SyndicateMedicines",
+            path: "/syndicate/medicines",
           },
           {
             title: "طلبات الاعتماد",
@@ -145,7 +145,7 @@ function SyndicateDashboard() {
             icon: <AssignmentIcon />,
             color: "error",
             trend: "محدث",
-            path: "/syndicate/promotions",
+            path: "/syndicate/bulletins",
           },
         ].map((item, index) => (
           <div

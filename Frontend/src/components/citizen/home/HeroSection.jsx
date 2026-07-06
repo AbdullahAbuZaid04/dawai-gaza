@@ -64,9 +64,9 @@ export default function HeroSection() {
     const query = searchQuery.trim();
 
     if (searchMode === "medicine") {
-      navigate(query ? `/search?q=${encodeURIComponent(query)}` : "/search-medicines");
+      navigate(query ? `/search?q=${encodeURIComponent(query)}` : "/search");
     } else {
-      navigate(query ? `/pharmacies?q=${encodeURIComponent(query)}` : "/search-pharmacies");
+      navigate(query ? `/pharmacies?q=${encodeURIComponent(query)}` : "/pharmacies");
     }
   };
 
@@ -132,7 +132,7 @@ export default function HeroSection() {
             {["مالتي فيتامين", "بنادول", "باراسيتامول"].map((term) => (
               <button
                 key={term}
-                onClick={() => navigate(`/search-medicines?q=${encodeURIComponent(term)}`)}
+                onClick={() => navigate(`/search?q=${encodeURIComponent(term)}`)}
                 className="hero-tag bg-primary/5 text-primary px-4 py-2 rounded-xl text-xs font-black hover:bg-primary hover:text-content-white transition-all cursor-pointer duration-300 border border-primary/10"
               >
                 {term}

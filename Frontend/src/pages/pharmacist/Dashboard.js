@@ -16,9 +16,9 @@ function PharmacistDashboard() {
   const [offers, setOffers] = useState([]);
   const [pharmacy, setPharmacy] = useState(null);
   const [loading, setLoading] = useState(true);
+  const pharmacyId = user?.pharmacy_id || user?.pharmacyId;
 
   useEffect(() => {
-    const pharmacyId = user?.pharmacy_id || user?.pharmacyId;
     const fetchData = async () => {
       if (!pharmacyId) {
         console.warn("Pharmacy ID is missing!");
@@ -56,10 +56,10 @@ function PharmacistDashboard() {
       {/* Header    */}
       <PageHeader
         title="لوحة تحكم الصيدلية"
-        description={`إدارة النواقص والمخزون في صورتها المباشرة لـ ${pharmacy.name}`}
+        description={`إدارة النواقص والمخزون في صورتها المباشرة لـ ${pharmacy?.name || "الصيدلية"}`}
         actionButton={
           <button
-            onClick={() => navigate("/pharmacist/:pharmacyId/inventory")}
+            onClick={() => navigate(`/pharmacist/${pharmacyId}/inventory`)}
             className="px-6 py-3 bg-primary text-content-white rounded-xl font-bold hover:bg-primary-700 transition-all flex items-center gap-2"
           >
             <Package className="w-5 h-5" />
@@ -114,7 +114,7 @@ function PharmacistDashboard() {
             </h2>
             {lowStockItems.length > 0 && (
               <button
-                onClick={() => navigate("/pharmacist/:pharmacyId/inventory")}
+                onClick={() => navigate(`/pharmacist/${pharmacyId}/inventory`)}
                 className="text-primary font-bold hover:underline"
               >
                 المخزون

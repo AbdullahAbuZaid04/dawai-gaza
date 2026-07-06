@@ -56,6 +56,8 @@ const Register = () => {
     if (!formData.startTime) tempErrors.startTime = "وقت البدء مطلوب";
     if (!formData.endTime) tempErrors.endTime = "وقت النهاية مطلوب";
     if (!formData.governorateId) tempErrors.governorateId = "المحافظة مطلوبة";
+    if (!formData.password) tempErrors.password = "كلمة المرور مطلوبة";
+    else if (formData.password.length < 6) tempErrors.password = "كلمة المرور يجب أن تكون 6 أحرف على الأقل";
 
     setErrors(tempErrors);
     return Object.keys(tempErrors).length === 0;

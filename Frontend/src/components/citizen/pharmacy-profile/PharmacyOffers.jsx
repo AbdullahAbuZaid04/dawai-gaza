@@ -10,10 +10,10 @@ function PharmacyOffers({ offers }) {
           {offers.map((ad) => (
             <OfferCard
               key={ad.id}
-              imageUrl={ad.image_url}
+              image_url={ad.image_url}
               title={ad.title}
               description={ad.description}
-              expiry={ad.end_date}
+              end_date={ad.end_date}
               pharmacyName={ad.pharmacy?.name_ar}
               pharmacyId={ad.pharmacy_id}
 

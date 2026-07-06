@@ -8,7 +8,7 @@ import API_BASE_URL from "../../config/api";
 function PriceMonitoring() {
   const [violations, setViolations] = useState([]);
   const [medicines, setMedicines] = useState([]);
-  const [searchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
   const [activeTab, setActiveTab] = useState(0);
   const [snackbar, setSnackbar] = useState({ open: false, message: "" });
   const [compareSearch, setCompareSearch] = useState("");
@@ -116,7 +116,7 @@ function PriceMonitoring() {
           },
           {
             label: "تحذيرات ",
-            value: stats.fined,
+            value: stats.warned,
             border: "border-status-error",
             text: "text-status-error",
             icon: <WarningIcon />,
@@ -124,7 +124,7 @@ function PriceMonitoring() {
           },
           {
             label: "مخالفات مالية",
-            value: stats.warned,
+            value: stats.fined,
             border: "border-status-warning",
             text: "text-status-warning",
             icon: <GavelIcon />,
@@ -144,6 +144,16 @@ function PriceMonitoring() {
             <p className={`text-2xl font-bold ${stat.text}`}>{stat.value}</p>
           </div>
         ))}
+      </div>
+
+      {/* Search */}
+      <div className="mb-4 flex justify-end">
+        <input
+          className="px-4 py-2 border rounded-lg w-64"
+          placeholder="بحث في البلاغات..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
       </div>
 
       {/* Tabs */}

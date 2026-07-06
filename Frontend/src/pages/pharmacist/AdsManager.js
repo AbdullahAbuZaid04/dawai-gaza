@@ -52,10 +52,18 @@ function AdsManager() {
     if (formData.imageFile) {
       data.append("image", formData.imageFile);
     }
-    const token = localStorage.getItem("token");
-    await axios.post(`${API_BASE_URL}/promotions`, data, {
-      headers: { "Content-Type": "multipart/form-data", Authorization: `Bearer ${token}` },
-    });
+    try {
+      const token = localStorage.getItem("token");
+      const res = await axios.post(`${API_BASE_URL}/promotions`, data, {
+        headers: { "Content-Type": "multipart/form-data", Authorization: `Bearer ${token}` },
+      });
+      setPromotions((prev) => [...prev, res.data]);
+      setShowModal(false);
+      setFormData({ title: "", description: "", priority: "normal", start_date: "", end_date: "", imageUrl: "", imageFile: null });
+    } catch (err) {
+      console.error("Error creating promotion:", err);
+      alert("حدث خطأ أثناء نشر الإعلان. يرجى المحاولة لاحقاً.");
+    }
   };
 
   return (

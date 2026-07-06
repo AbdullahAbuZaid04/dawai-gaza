@@ -30,7 +30,7 @@ function PharmacyProfile() {
         const prom = await axios.get(`${API_BASE_URL}/pharmacies/${id}/promotions`, config);
 
         setPharmacy(res.data);
-        setPromotions(prom.data);
+        setPromotions(prom.data?.promotions || prom.data || []);
       } catch (err) {
         console.error("خطأ في  بيانات الصيدلية:", err);
       } finally {
@@ -47,14 +47,16 @@ function PharmacyProfile() {
       <NotFoundState
         title="الصيدلية غير موجودة"
         actionLabel="العودة للبحث"
-        onAction={() => navigate("/search-pharmacies")}
+        onAction={() => navigate("/pharmacies")}
       />
     );
   }
 
-  const filteredMedicines =
-    pharmacy.medicines?.filter((m) => m.nameAr.toLowerCase().includes(searchTerm.toLowerCase())) ||
-    [];
+  const inventory = pharmacy.inventory || pharmacy.medicines || [];
+  const filteredMedicines = inventory.filter((m) => {
+    const name = m.medicine?.name_ar || m.nameAr || m.name_ar || "";
+    return name.toLowerCase().includes(searchTerm.toLowerCase());
+  });
 
   const tabs = [
     { id: 0, label: "الأدوية", icon: <Pill size={20} /> },
@@ -87,7 +89,7 @@ function PharmacyProfile() {
           )}
           {activeTab === 1 && <ContactSection pharmacy={pharmacy} />}
           {activeTab === 2 && <LocationSection pharmacy={pharmacy} />}
-          {activeTab === 3 && <PharmacyOffers offers={promotions.promotions} />}
+          {activeTab === 3 && <PharmacyOffers offers={promotions} />}
         </div>
       </main>
     </div>
