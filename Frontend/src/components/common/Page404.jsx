@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-export default function Unauthorized() {
+export default function Page404() {
   return (
     <div className="min-h-screen flex items-center justify-center  bg-ui-gray p-6" dir="rtl">
       <div className="max-w-xl w-full bg-ui-card rounded-2xl p-10 text-center shadow-lg border border-dashed border-primary">

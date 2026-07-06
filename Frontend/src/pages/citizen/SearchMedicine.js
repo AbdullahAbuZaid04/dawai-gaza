@@ -19,13 +19,14 @@ function SearchMedicine() {
     setLoading(true);
     try {
       const resInventory = await axios.get(`${API_BASE_URL}/inventory`, {
-        params: { search: searchQuery },
+        params: { search: searchQuery, page: pageNum },
       });
-      const formattedData = resInventory.data.map((item) => {
+      const items = resInventory.data.data || resInventory.data || [];
+      const formattedData = items.map((item) => {
         return {
           pharmacy: {
             id: item.pharmacy_id,
-            name_ar: item.pharmacy_name,
+            name_ar: item.pharmacy_name_ar || item.pharmacy_name,
             location: item.location || "الموقع غير متوفر",
           },
           medicine: {
@@ -40,10 +41,9 @@ function SearchMedicine() {
       });
 
       setMedicines(formattedData);
-      setTotalPages(1);
+      setTotalPages(resInventory.data.last_page || 1);
       setHasSearched(searchQuery !== "");
     } catch (err) {
-      console.error("خطأ  :", err);
     } finally {
       setLoading(false);
     }
@@ -56,14 +56,18 @@ function SearchMedicine() {
   }, [searchMed]);
 
   const renderMedicineCard = (item, index) => (
-    <div key={`${item.pharmacy.id}-${item.medicine.id}-${index}`} className="medicine-card-wrapper">
+    <div key={`${item.pharmacy.id}-${item.medicine.id}`} className="medicine-card-wrapper">
       <MedicineCard item={item} index={index} tinted={false} />
     </div>
   );
 
-  void loading;
   return (
     <div className="bg-ui-gray">
+      {loading ? (
+        <div className="flex justify-center items-center py-40">
+          <div className="w-10 h-10 border-4 border-primary border-t-transparent rounded-full animate-spin" />
+        </div>
+      ) : (
       <SearchPageLayout
         title="محرك بحث الأدوية"
         description="ابحث وتعرف على أسعار وتوفر الأدوية في صيدليات قطاع غزة المعتمدة لحظة بلحظة"
@@ -83,12 +87,13 @@ function SearchMedicine() {
         emptyStateSubtext="تأكد من كتابة اسم الدواء بشكل صحيح."
         page={page}
         totalPages={totalPages}
-        onPageChange={(e, p) => {
+        onPageChange={(p) => {
           setPage(p);
           fetchMedicines(query, p);
           window.scrollTo({ top: 0, behavior: "smooth" });
         }}
       />
+      )}
     </div>
   );
 }

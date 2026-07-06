@@ -17,7 +17,7 @@ const InventoryTable = ({ medicines, onEdit, onDelete }) => {
           {medicines.map((item) => (
             <tr key={item.id} className="hover:bg-ui-gray/20 transition-colors">
               <td className="px-6 py-4">
-                <div className="font-bold">{item.medicine.name_ar}</div>
+                <div className="font-bold">{item.medicine?.name_ar || item.name_ar}</div>
               </td>
               <td className="px-6 py-4 font-bold">{item.price_ils} شيكل</td>
               <td className="px-6 py-4">
@@ -34,14 +34,14 @@ const InventoryTable = ({ medicines, onEdit, onDelete }) => {
                 <div className="flex gap-2 justify-center">
                   <button
                     onClick={() => onEdit(item)}
-                    aria-label={`تعديل ${item.medicine.name_ar}`}
+                    aria-label={`تعديل ${item.medicine?.name_ar || item.name_ar}`}
                     className="p-2 rounded-lg text-primary hover:bg-primary/10 transition"
                   >
                     <Edit className="w-4 h-4" />
                   </button>
                   <button
                     onClick={() => onDelete(item)}
-                    aria-label={`حذف ${item.medicine.name_ar}`}
+                    aria-label={`حذف ${item.medicine?.name_ar || item.name_ar}`}
                     className="p-2 rounded-lg text-status-error hover:bg-status-error/10 transition"
                   >
                     <Trash2 className="w-4 h-4" />

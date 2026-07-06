@@ -22,7 +22,7 @@ function SearchPharmacy() {
         params: { search: searchQuery, page: pageNum },
       });
 
-      const rawData = res.data || [];
+      const rawData = res.data.data || res.data || [];
 
       const formattedData = rawData.map((p) => ({
         id: p.id,
@@ -35,7 +35,7 @@ function SearchPharmacy() {
       }));
 
       setPharmacies(formattedData);
-      setTotalPages(res.data.last_page || 1);
+      setTotalPages(res.data.last_page || Math.ceil((res.data.total || rawData.length) / 16) || 1);
       setHasSearched(searchQuery !== "");
     } catch (err) {
       console.error("خطأ في البحث:", err);
@@ -44,7 +44,7 @@ function SearchPharmacy() {
     }
   };
   const handleSearch = (q) => {
-    navigate(`/pharmacies?q=${encodeURIComponent(q)}`);
+    navigate(`/pharmacies?q=${encodeURIComponent(q)}&page=1`);
   };
 
   useEffect(() => {
@@ -58,9 +58,13 @@ function SearchPharmacy() {
       <PharmaciesCard pharmacy={pharmacy} tinted={true} />
     </div>
   );
-  void loading;
   return (
     <div className="bg-ui-gray">
+      {loading ? (
+        <div className="flex justify-center items-center py-40">
+          <div className="w-10 h-10 border-4 border-primary border-t-transparent rounded-full animate-spin" />
+        </div>
+      ) : (
       <SearchPageLayout
         title="محرك بحث الصيدليات"
         description="ابحث عن أقرب صيدلية إليك، وتحقق من ساعات العمل والصيدليات المناوبة وتواصل معهم."
@@ -86,6 +90,7 @@ function SearchPharmacy() {
           window.scrollTo({ top: 0, behavior: "smooth" });
         }}
       />
+      )}
     </div>
   );
 }

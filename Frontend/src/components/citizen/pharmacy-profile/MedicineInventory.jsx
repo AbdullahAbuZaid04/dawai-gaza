@@ -41,21 +41,21 @@ function MedicineInventory({ pharmacyId, searchTerm, onSearchChange, medicines }
               </div>
               <div className="flex flex-col">
                 <h4 className="font-black text-content-main text-x group-hover:text-primary transition-colors leading-tight mb-2">
-                  {med.nameAr}
+                  {med.medicine?.name_ar || med.name_ar || med.nameAr}
                 </h4>
                 <div className="flex items-center gap-2">
                   <span
                     className={`inline-block px-3 py-1 rounded-xl text-[10px] font-black tracking-widest uppercase ${med.available ? "bg-status-success/10 text-status-success" : "bg-status-error/10 text-status-error"}`}
                   >
-                    {med.available ? "متوفر" : "غير متوفر"}
+                    {(med.available ?? med.stock_status === "In Stock") ? "متوفر" : "غير متوفر"}
                   </span>
-                  <span className="text-xs font-bold text-content-light/60">{med.dosage_form}</span>
+                  <span className="text-xs font-bold text-content-light/60">{med.medicine?.dosage_form || med.dosage_form}</span>
                 </div>
               </div>
             </div>
 
             <div className="text-right relative z-10">
-              <span className="text-2xl font-black text-primary inline-block">{med.price}</span>
+              <span className="text-2xl font-black text-primary inline-block">{med.medicine?.price ?? med.price}</span>
               <span className="text-sm font-black text-primary mr-1">₪</span>
             </div>
           </div>

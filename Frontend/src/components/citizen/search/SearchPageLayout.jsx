@@ -49,10 +49,7 @@ function SearchPageLayout({
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {results.slice((page - 1) * 16, page * 16).map((item, index) => {
-                const globalIndex = (page - 1) * 16 + index;
-                return renderItem(item, globalIndex);
-              })}
+              {results.map((item, index) => renderItem(item, index))}
             </div>
 
             <Pagination

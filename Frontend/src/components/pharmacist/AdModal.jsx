@@ -33,10 +33,12 @@ const AdModal = ({ isOpen, onClose, onSubmit, formData, setFormData }) => {
           </div>
 
           <div>
-            <label>تاريخ البدء</label>
+            <label htmlFor="start_date" className="block text-xs font-black text-content-light mb-1">تاريخ البدء</label>
             <input
+              id="start_date"
               type="date"
               required
+              className="w-full px-4 py-3 bg-ui-bg/25 border border-ui-border rounded-xl focus:border-primary outline-none transition font-bold text-content-main"
               value={formData.start_date || ""}
               onChange={(e) => setFormData({ ...formData, start_date: e.target.value })}
             />
@@ -44,10 +46,12 @@ const AdModal = ({ isOpen, onClose, onSubmit, formData, setFormData }) => {
 
           {/* حقل تاريخ الانتهاء */}
           <div>
-            <label>تاريخ الانتهاء</label>
+            <label htmlFor="end_date" className="block text-xs font-black text-content-light mb-1">تاريخ الانتهاء</label>
             <input
+              id="end_date"
               type="date"
               required
+              className="w-full px-4 py-3 bg-ui-bg/25 border border-ui-border rounded-xl focus:border-primary outline-none transition font-bold text-content-main"
               value={formData.end_date || ""}
               onChange={(e) => setFormData({ ...formData, end_date: e.target.value })}
             />

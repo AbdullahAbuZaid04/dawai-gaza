@@ -20,8 +20,8 @@ export default function FeaturedPharmaciesSection() {
 
         const formattedData = res.data.map((p) => ({
           id: p.id,
-          name: p.name,
-          location: p.location || "الموقع غير متوفر",
+          name: p.name_ar || p.name,
+          location: p.address_note || p.location || "الموقع غير متوفر",
           connect: { phoneNumber: p.phone || "غير متوفر" },
           working: {
             open: p.open_time,

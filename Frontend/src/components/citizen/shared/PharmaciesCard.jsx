@@ -11,7 +11,7 @@ function PharmaciesCard({ pharmacy, tinted = false }) {
     >
       <div className="p-6">
         {/* اسم الصيدلية */}
-        <h3 className="text-lg font-bold text-content-main mb-4 truncate">{pharmacy.name}</h3>
+        <h3 className="text-lg font-bold text-content-main mb-4 truncate">{pharmacy.name || pharmacy.name_ar}</h3>
 
         {/* التفاصيل */}
         <div className="space-y-3 border-y-2 border-ui-border py-4 mb-4">
@@ -38,10 +38,11 @@ function PharmaciesCard({ pharmacy, tinted = false }) {
           <button
             onClick={(e) => {
               e.stopPropagation();
-              window.open(
-                `https://www.google.com/maps?q=${pharmacy.lat},${pharmacy.lng}`,
-                "_blank"
-              );
+              const lat = pharmacy.lat || pharmacy.latitude;
+              const lng = pharmacy.lng || pharmacy.longitude;
+              if (lat && lng) {
+                window.open(`https://www.google.com/maps?q=${lat},${lng}`, "_blank");
+              }
             }}
             aria-label={`عرض موقع ${pharmacy.name} على الخريطة`}
             className="flex-1 flex items-center justify-center gap-2 py-2.5 border-2 border-ui-border text-content-light rounded-xl text-xs font-bold hover:text-primary hover:border-primary/20 transition-all"

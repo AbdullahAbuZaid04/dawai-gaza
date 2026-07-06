@@ -23,12 +23,7 @@ const SearchBar = ({ value, onChange, onSubmit, placeholder, buttonText = "بح�
           className="w-full bg-transparent border-none outline-none px-3 md:px-4 py-2 md:py-3 text-sm md:text-xl font-medium text-text placeholder-text-light"
           value={value}
           onChange={onChange}
-          onKeyDown={(e) => {
-            if (e.key === "Enter") {
-              e.preventDefault();
-              onSubmit();
-            }
-          }}
+
         />
       </div>
       <button

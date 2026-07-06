@@ -18,8 +18,8 @@ function MedicineWarnings({ medicine }) {
         </div>
 
         <ul className="space-y-4 text-content-light font-medium mr-4">
-          {warnings.map((warning) => (
-            <li className="flex gap-2">
+          {warnings.map((warning, idx) => (
+            <li key={idx} className="flex gap-2">
               <span className="text-status-error font-bold">•</span>
               {warning}
             </li>
@@ -37,8 +37,8 @@ function MedicineWarnings({ medicine }) {
         </div>
 
         <ul className="space-y-4 text-content-light font-medium mr-2">
-          {directions.map((direction) => (
-            <li className="flex gap-2 text-primary font-bold">
+          {directions.map((direction, idx) => (
+            <li key={idx} className="flex gap-2 text-primary font-bold">
               <ChevronLeft size={18} className="shrink-0" />
               {direction}
             </li>

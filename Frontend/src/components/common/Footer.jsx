@@ -39,18 +39,21 @@ function Footer() {
             </p>
             <div className="flex gap-3">
               {[
-                { Icon: LinkedInIcon, label: "لينكد إن" },
-                { Icon: InstagramIcon, label: "إنستغرام" },
-                { Icon: TwitterIcon, label: "تويتر" },
-                { Icon: FacebookIcon, label: "فيسبوك" },
-              ].map(({ Icon, label }, idx) => (
-                <button
+                { Icon: LinkedInIcon, label: "لينكد إن", href: "https://linkedin.com" },
+                { Icon: InstagramIcon, label: "إنستغرام", href: "https://instagram.com" },
+                { Icon: TwitterIcon, label: "تويتر", href: "https://twitter.com" },
+                { Icon: FacebookIcon, label: "فيسبوك", href: "https://facebook.com" },
+              ].map(({ Icon, label, href }, idx) => (
+                <a
                   key={idx}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   aria-label={label}
                   className="w-10 h-10 bg-primary/10 text-content-white rounded-full flex items-center justify-center hover:bg-primary transition-all duration-300"
                 >
                   <Icon className="!text-[20px]" />
-                </button>
+                </a>
               ))}
             </div>
           </div>

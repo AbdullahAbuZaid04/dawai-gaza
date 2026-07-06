@@ -41,6 +41,7 @@ const Register = () => {
     password: "",
   });
   const [errors, setErrors] = useState({});
+  const [loading, setLoading] = useState(false);
 
   const validate = () => {
     let tempErrors = {};
@@ -72,6 +73,7 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (validate()) {
+      setLoading(true);
       try {
         await axios.post(`${API_BASE_URL}/pharmacies/register-request`, {
           pharmacy_name_ar: formData.pharmacyName,
@@ -98,6 +100,8 @@ const Register = () => {
             serverMsg ||
             "حدث خطأ في التسجيل. يرجى المحاولة لاحقاً.",
         });
+      } finally {
+        setLoading(false);
       }
     }
   };
@@ -323,9 +327,13 @@ const Register = () => {
             <div className="pt-4 md:pt-8 flex justify-center">
               <button
                 type="submit"
-                className="w-full md:max-w-md py-4 bg-primary text-content-white rounded-xl font-bold text-lg hover:bg-primary-700 transition-all duration-300"
+                disabled={loading}
+                className="w-full md:max-w-md py-4 bg-primary text-content-white rounded-xl font-bold text-lg hover:bg-primary-700 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
               >
-                إرسال طلب التسجيل
+                {loading && (
+                  <span className="w-5 h-5 border-2 border-content-white border-t-transparent rounded-full animate-spin" />
+                )}
+                {loading ? "جاري الإرسال..." : "إرسال طلب التسجيل"}
               </button>
             </div>
           </form>

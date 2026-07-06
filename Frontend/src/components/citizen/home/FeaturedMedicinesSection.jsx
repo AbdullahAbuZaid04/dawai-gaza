@@ -1,17 +1,12 @@
-import React, { useState, useEffect, useRef } from "react"; //
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import API_BASE_URL from "../../../config/api";
 import MainButton from "../../common/MainButton";
 import MedicineCard from "../shared/MedicineCard";
-import { gsap } from "gsap";
-import { useGSAP } from "@gsap/react";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-gsap.registerPlugin(ScrollTrigger);
 
 export default function FeaturedMedicinesSection() {
   const [featuredMedicines, setFeaturedMedicines] = useState([]);
-  const container = useRef(null);
 
   useEffect(() => {
     const fetchFeatured = async () => {
@@ -52,21 +47,8 @@ export default function FeaturedMedicinesSection() {
     fetchFeatured();
   }, []);
 
-  useGSAP(
-    () => {
-      gsap.timeline({
-        scrollTrigger: {
-          trigger: container.current,
-          start: "top 80%",
-          toggleActions: "play none none reverse",
-        },
-      });
-    },
-    { scope: container }
-  );
-
   return (
-    <section ref={container} className="py-20 md:py-32">
+    <section className="py-20 md:py-32">
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
         <div className="text-center mb-20">
           <h2 className="section-title text-3xl md:text-5xl font-black text-content-main mb-6">

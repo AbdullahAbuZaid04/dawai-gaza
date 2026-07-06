@@ -23,7 +23,7 @@ function SyndicateMedicines() {
   }, []);
 
   const filteredMedicines = medicines.filter((item) =>
-    item.name_ar?.toLowerCase().includes(searchTerm.toLowerCase())
+    (item.name_ar || item.medicine?.name_ar)?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
@@ -83,17 +83,16 @@ function SyndicateMedicines() {
                       </td>
 
                       <td className="px-6 py-5">
-                        <div className="font-extrabold text-content-main">{item.name_ar}</div>
-                        {/*      */}
+                        <div className="font-extrabold text-content-main">{item.medicine?.name_ar || item.name_ar}</div>
                         <div className="text-[10px] text-content-light font-bold mt-0.5">
-                          {item.dosage_form}
+                          {item.medicine?.dosage_form || item.dosage_form}
                         </div>
                       </td>
 
                       <td className="px-6 py-5 font-extrabold text-primary">
-                        {item.pharmacy_name}
+                        {item.pharmacy_name_ar || item.pharmacy_name}
                         <div className="text-[10px] text-content-light font-bold mt-0.5">
-                          {item.location}
+                          {item.location || item.pharmacy?.location}
                         </div>
                       </td>
 
