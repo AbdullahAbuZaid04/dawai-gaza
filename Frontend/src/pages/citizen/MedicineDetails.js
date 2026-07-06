@@ -23,7 +23,9 @@ const MedicineDetails = () => {
   useEffect(() => {
     const fetchDetails = async () => {
       try {
-        const res = await axios.get(`${API_BASE_URL}/inventory/${pharmacyId}/${medicineId}`);
+        const res = await axios.get(
+          `${API_BASE_URL}/inventory/${pharmacyId}/${medicineId}`,
+        );
         setData(res.data);
       } catch (err) {
         console.error(err);
@@ -36,7 +38,9 @@ const MedicineDetails = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">جاري تحميل التفاصيل...</div>
+      <div className="min-h-screen flex items-center justify-center">
+        جاري تحميل التفاصيل...
+      </div>
     );
   }
 
@@ -51,6 +55,7 @@ const MedicineDetails = () => {
   }
 
   const { medicine, pharmacy } = data;
+  console.log("pharmacy Details:", pharmacy);
 
   return (
     <div className="min-h-screen bg-ui-gray/40 text-right py-8 md:py-16">
@@ -58,7 +63,7 @@ const MedicineDetails = () => {
         <div className="mb-8">
           <button
             onClick={() => navigate(-1)}
-            className="inline-flex items-center gap-2 text-content-light font-bold hover:text-primary transition-colors py-2"
+            className="inline-flex items-center gap-2 text-content-light font-bold bg-ui-card hover:text-content-main transition-colors px-4 py-2 rounded-xl"
           >
             <ArrowRight size={20} />
             <span>العودة للسابق</span>

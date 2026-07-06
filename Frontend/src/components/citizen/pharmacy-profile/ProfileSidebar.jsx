@@ -1,5 +1,4 @@
 import { Pill, Clock } from "lucide-react";
-import { formatTimeRangeArabic } from "../../../utils/time";
 
 function ProfileSidebar({ pharmacy, tabs, activeTab, onTabChange }) {
   return (
@@ -9,17 +8,19 @@ function ProfileSidebar({ pharmacy, tabs, activeTab, onTabChange }) {
         <div className="w-20 h-20 md:w-24 md:h-24 rounded-3xl bg-ui-gray mx-auto mb-4 flex items-center justify-center border-2 border-dashed border-primary">
           <Pill className="text-primary w-10 h-10 md:w-12 md:h-12" />
         </div>
-        <h1 className="text-2xl md:text-3xl font-black text-content-main mb-4">{pharmacy.name}</h1>
+        <h1 className="text-2xl md:text-3xl font-black text-content-main mb-4">
+          {pharmacy.name}
+        </h1>
         <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-xl border border-primary/20 bg-primary/5 text-primary text-xs font-black">
           <Clock size={14} />
-          {formatTimeRangeArabic(pharmacy.open_time, pharmacy.close_time)}
+          {`${pharmacy.open_time} - ${pharmacy.close_time}`}
         </span>
       </div>
 
       <div className="h-px bg-ui-border mb-8" />
 
       {/* Navigation */}
-      <nav className="space-y-2 flex flex-col">
+      <nav className="space-y-3 flex flex-col">
         {tabs.map((tab) => (
           <button
             key={tab.id}
