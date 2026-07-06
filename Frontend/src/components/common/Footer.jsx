@@ -31,18 +31,36 @@ function Footer() {
           <div>
             <div className="flex items-center gap-3 mb-6">
               <LocalPharmacyIcon className="text-primary !text-[40px]" />
-              <span className="text-2xl font-black text-primary tracking-tight">دوائي</span>
+              <span className="text-2xl font-black text-primary tracking-tight">
+                دوائي
+              </span>
             </div>
             <p className="text-content-inverse leading-relaxed text-[0.95rem] mb-8">
-              المنصة الشاملة الوحيدة في قطاع غزة للبحث عن الأدوية، نهدف لمساعدتك في العثور على علاجك
-              بسهولة وسرعة.
+              المنصة الشاملة الوحيدة في قطاع غزة للبحث عن الأدوية، نهدف لمساعدتك
+              في العثور على علاجك بسهولة وسرعة.
             </p>
             <div className="flex gap-3">
               {[
-                { Icon: LinkedInIcon, label: "لينكد إن", href: "https://linkedin.com" },
-                { Icon: InstagramIcon, label: "إنستغرام", href: "https://instagram.com" },
-                { Icon: TwitterIcon, label: "تويتر", href: "https://twitter.com" },
-                { Icon: FacebookIcon, label: "فيسبوك", href: "https://facebook.com" },
+                {
+                  Icon: LinkedInIcon,
+                  label: "لينكد إن",
+                  href: "https://linkedin.com",
+                },
+                {
+                  Icon: InstagramIcon,
+                  label: "إنستغرام",
+                  href: "https://instagram.com",
+                },
+                {
+                  Icon: TwitterIcon,
+                  label: "تويتر",
+                  href: "https://twitter.com",
+                },
+                {
+                  Icon: FacebookIcon,
+                  label: "فيسبوك",
+                  href: "https://facebook.com",
+                },
               ].map(({ Icon, label, href }, idx) => (
                 <a
                   key={idx}
@@ -60,7 +78,9 @@ function Footer() {
 
           {/* 2. Quick Links */}
           <div>
-            <h2 className="text-lg font-extrabold text-content-white mb-6">روابط سريعة</h2>
+            <h2 className="text-lg font-extrabold text-content-white mb-6">
+              روابط سريعة
+            </h2>
             <div className="flex flex-col gap-4 text-[0.95rem]">
               {quickLinks.map((link, idx) => (
                 <Link
@@ -76,7 +96,9 @@ function Footer() {
 
           {/* 3. Services */}
           <div>
-            <h2 className="text-lg font-extrabold text-content-white mb-6">خدماتنا</h2>
+            <h2 className="text-lg font-extrabold text-content-white mb-6">
+              خدماتنا
+            </h2>
             <div className="flex flex-col gap-4 text-[0.95rem]">
               {servicesLinks.map((item, idx) => (
                 <span key={idx} className="text-content-inverse">
@@ -88,7 +110,9 @@ function Footer() {
 
           {/* 4. Contact Us */}
           <div>
-            <h2 className="text-lg font-extrabold text-content-white mb-6">تواصل معنا</h2>
+            <h2 className="text-lg font-extrabold text-content-white mb-6">
+              تواصل معنا
+            </h2>
             <div className="flex flex-col gap-5 text-[0.95rem]">
               {[
                 { icon: <LocationOnIcon />, text: "غزة، فلسطين" },
@@ -99,7 +123,9 @@ function Footer() {
                   <div className="w-10 h-10 bg-primary/10 text-primary rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
                     {item.icon}
                   </div>
-                  <span className="text-content-inverse font-medium">{item.text}</span>
+                  <span className="text-content-inverse font-medium">
+                    {item.text}
+                  </span>
                 </div>
               ))}
             </div>
