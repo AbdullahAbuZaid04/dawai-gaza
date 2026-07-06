@@ -40,7 +40,7 @@ function MedicineInventory({ pharmacyId, searchTerm, onSearchChange, medicines }
                 <Pill size={24} />
               </div>
               <div className="flex flex-col">
-                <h4 className="font-black text-content-main text-x group-hover:text-primary transition-colors leading-tight mb-2">
+                <h4 className="font-black text-content-main text-lg group-hover:text-primary transition-colors leading-tight mb-2">
                   {med.medicine?.name_ar || med.name_ar || med.nameAr}
                 </h4>
                 <div className="flex items-center gap-2">
@@ -62,7 +62,7 @@ function MedicineInventory({ pharmacyId, searchTerm, onSearchChange, medicines }
         ))}
         {medicines.length === 0 && (
           <div className="col-span-full py-20 text-center bg-ui-card rounded-2xl border-2 border-dashed border-ui-border">
-            <p className="text-content-light font-bold">عذراً، لم نجد نتائج لـ "{searchTerm}"</p>
+            <p className="text-content-main font-bold">عذراً، لم نجد نتائج لـ "{searchTerm}"</p>
           </div>
         )}
       </div>

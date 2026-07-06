@@ -230,7 +230,7 @@ function Approvals() {
                 <tr>
                   <td
                     colSpan="5"
-                    className="py-20 text-center opacity-30 text-content-light text-lg font-bold"
+                    className="py-20 text-center text-content-main text-lg font-bold bg-ui-card rounded-2xl border border-dashed border-ui-border"
                   >
                     لا توجد طلبات في هذا القسم حالياً
                   </td>

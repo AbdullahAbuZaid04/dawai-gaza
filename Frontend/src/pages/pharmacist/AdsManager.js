@@ -87,7 +87,7 @@ function AdsManager() {
           promotions.map((ad) => <AdCard key={ad.id} ad={ad} />)
         ) : (
           <div className="col-span-full bg-ui-card rounded-2xl p-12 text-center border border-dashed border-ui-border">
-            <div className="w-20 h-20 bg-primary/10 text-primary rounded-full flex items-center justify-center mx-auto mb-4">
+            <div className="w-20 h-20 bg-ui-card rounded-full flex items-center justify-center mx-auto mb-4 border border-dashed border-ui-border">
               <Megaphone className="w-8 h-8" />
             </div>
             <h3 className="text-xl font-black text-content-main mb-2">لا توجد إعلانات نشطة</h3>

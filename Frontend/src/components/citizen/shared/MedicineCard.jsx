@@ -35,14 +35,14 @@ function MedicineCard({ item, tinted = false }) {
           </div>
 
           {/* حالة التوفر */}
-          <div className="flex items-center gap-2 ">
+          <div className="flex items-center gap-2">
             <div
-              className={`w-2 h-2 rounded-full animate-pulse ${item.quantity > 0 ? "bg-status-success" : "bg-status-error"}`}
+              className={`w-2 h-2 rounded-full animate-pulse ${(item.medicine?.quantity ?? item.quantity) > 0 ? "bg-status-success" : "bg-status-error"}`}
             />
             <span
-              className={`text-xs font-bold ${item.quantity > 0 ? "text-status-success" : "text-status-error"}`}
+              className={`text-xs font-bold ${(item.medicine?.quantity ?? item.quantity) > 0 ? "text-status-success" : "text-status-error"}`}
             >
-              {item.quantity > 0 ? "متوفر الآن" : "غير متوفر"}
+              {(item.medicine?.quantity ?? item.quantity) > 0 ? "متوفر الآن" : "غير متوفر"}
             </span>
           </div>
         </div>

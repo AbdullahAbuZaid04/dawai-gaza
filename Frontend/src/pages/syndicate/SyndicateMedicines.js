@@ -68,10 +68,12 @@ function SyndicateMedicines() {
               <tbody className="divide-y divide-ui-border">
                 {filteredMedicines.length === 0 ? (
                   <tr>
-                    <td colSpan="5" className="py-24 text-center opacity-30">
+                    <td colSpan="5" className="py-24 text-center bg-ui-card rounded-2xl border border-dashed border-ui-border">
                       <div className="flex flex-col items-center">
-                        <Package className="w-16 h-16 mb-4" />
-                        <p className="text-xl font-extrabold">لا توجد أدوية مطابقة للبحث</p>
+                        <div className="w-16 h-16 bg-ui-card rounded-full flex items-center justify-center border border-dashed border-ui-border mb-4">
+                          <Package className="w-8 h-8 text-content-light" />
+                        </div>
+                        <p className="text-xl font-extrabold text-content-main">لا توجد أدوية مطابقة للبحث</p>
                       </div>
                     </td>
                   </tr>

@@ -189,7 +189,7 @@ function SyndicateDashboard() {
 
           <div className="space-y-4">
             {violations.length === 0 ? (
-              <p className="text-center text-content-light py-4">لا توجد بلاغات حالياً</p>
+              <p className="text-center text-content-main py-4 font-bold">لا توجد بلاغات حالياً</p>
             ) : (
               violations.slice(0, 4).map((v) => (
                 <div
@@ -234,7 +234,7 @@ function SyndicateDashboard() {
 
           <div className="space-y-2">
             {pending.length === 0 ? (
-              <p className="text-center py-4 font-bold text-content-light">
+              <p className="text-center py-4 font-bold text-content-main">
                 لا يوجد طلبات معلقة حالياً
               </p>
             ) : (

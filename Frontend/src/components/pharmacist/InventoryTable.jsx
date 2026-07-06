@@ -52,7 +52,7 @@ const InventoryTable = ({ medicines, onEdit, onDelete }) => {
           ))}
           {medicines.length === 0 && (
             <tr>
-              <td colSpan="5" className="p-8 text-center text-content-light font-bold">
+              <td colSpan="5" className="p-8 text-center text-content-main font-bold">
                 لم يتم العثور على أدوية.
               </td>
             </tr>

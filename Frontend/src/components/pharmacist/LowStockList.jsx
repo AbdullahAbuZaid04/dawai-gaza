@@ -18,9 +18,9 @@ const LowStockList = ({ lowStockItems }) => {
           </div>
         ))
       ) : (
-        <div className="p-8 text-center text-content-light font-bold flex flex-col items-center col-span-full">
-          <div className="w-16 h-16 bg-ui-gray rounded-full flex items-center justify-center mb-4 border border-dashed border-ui-border shadow-sm">
-            <Package className="w-8 h-8 text-ui-border" />
+        <div className="p-8 text-center text-content-main font-bold flex flex-col items-center col-span-full bg-ui-card rounded-2xl border border-dashed border-ui-border">
+          <div className="w-16 h-16 bg-ui-card rounded-full flex items-center justify-center mb-4 border border-dashed border-ui-border">
+            <Package className="w-8 h-8 text-content-light" />
           </div>
           لا توجد أدوية منخفضة المخزون
         </div>

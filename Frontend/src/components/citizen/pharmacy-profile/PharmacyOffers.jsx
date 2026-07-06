@@ -24,8 +24,10 @@ function PharmacyOffers({ offers }) {
         </div>
       ) : (
         <div className="text-center py-20 bg-ui-card rounded-2xl border-2 border-dashed border-ui-border">
-          <Tag className="w-20 h-20 text-ui-border mx-auto mb-6 opacity-20" />
-          <h3 className="text-2xl font-black text-ui-border">لا توجد عروض حالية لهذه الصيدلية</h3>
+          <div className="w-20 h-20 bg-ui-card rounded-full flex items-center justify-center mx-auto mb-6 border border-dashed border-ui-border">
+            <Tag className="w-8 h-8 text-content-light" />
+          </div>
+          <h3 className="text-2xl font-black text-content-main">لا توجد عروض حالية لهذه الصيدلية</h3>
         </div>
       )}
     </div>
