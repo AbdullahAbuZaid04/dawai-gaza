@@ -97,7 +97,7 @@ const Login = () => {
 
           {/* Error Message */}
           {error && (
-            <div className="mb-6 p-4 bg-status-error/5 text-status-error rounded-xl text-sm font-bold animate-shake border border-status-error/10">
+            <div role="alert" className="mb-6 p-4 bg-status-error/5 text-status-error rounded-xl text-sm font-bold animate-shake border border-status-error/10">
               {error}
             </div>
           )}
@@ -106,12 +106,13 @@ const Login = () => {
           <form onSubmit={handleLogin} className="space-y-4 sm:space-y-5">
             {/* Email Field */}
             <div className="relative group text-right">
-              <label className="block text-xs font-black text-content-light mb-1 mr-1 uppercase tracking-widest">
+              <label htmlFor="login-email" className="block text-xs font-black text-content-light mb-1 mr-1 uppercase tracking-widest">
                 البريد الإلكتروني
               </label>
               <div className="relative">
                 <EmailIcon className="absolute right-4 top-1/2 -translate-y-1/2 text-primary !text-[20px] transition-transform pointer-events-none" />
                 <input
+                  id="login-email"
                   type="email"
                   required
                   placeholder="example@domain.com"
@@ -124,12 +125,13 @@ const Login = () => {
 
             {/* Password Field */}
             <div className="relative group text-right">
-              <label className="block text-xs font-black text-content-light mb-1 mr-1 uppercase tracking-widest">
+              <label htmlFor="login-password" className="block text-xs font-black text-content-light mb-1 mr-1 uppercase tracking-widest">
                 كلمة المرور
               </label>
               <div className="relative">
                 <LockIcon className="absolute right-4 top-1/2 -translate-y-1/2 text-primary !text-[20px] transition-transform pointer-events-none" />
                 <input
+                  id="login-password"
                   type={showPassword ? "text" : "password"}
                   required
                   placeholder="••••••••"
@@ -140,7 +142,8 @@ const Login = () => {
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute left-4 top-1/2 -translate-y-1/2 text-content-light hover:text-primary transition-colors focus:outline-none p-1"
+                  aria-label={showPassword ? "إخفاء كلمة المرور" : "إظهار كلمة المرور"}
+                  className="absolute left-4 top-1/2 -translate-y-1/2 text-content-light hover:text-primary transition-colors p-1"
                 >
                   {showPassword ? (
                     <VisibilityOff className="!text-[20px]" />

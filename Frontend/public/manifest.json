@@ -1,6 +1,7 @@
 {
-  "short_name": "Dawai",
-  "name": "Dawai",
+  "short_name": "دوائي",
+  "name": "دوائي - منصة البحث عن الأدوية",
+  "description": "منصتك الشاملة للبحث عن الأدوية والصيدليات في قطاع غزة",
   "icons": [
     {
       "src": "favicon.ico",
@@ -11,5 +12,7 @@
   "start_url": ".",
   "display": "standalone",
   "theme_color": "#2ea79b",
-  "background_color": "#ffffff"
+  "background_color": "#E2E8F0",
+  "lang": "ar",
+  "dir": "rtl"
 }

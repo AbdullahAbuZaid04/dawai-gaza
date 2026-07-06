@@ -117,7 +117,7 @@ export const DataProvider = ({ children }) => {
     [pharmacies]
   );
 
-  const value = {
+  const value = useMemo(() => ({
     pharmacies,
     bulletins,
     ads,
@@ -137,7 +137,26 @@ export const DataProvider = ({ children }) => {
     searchMedicines,
     searchPharmacies,
     OFFICIAL_PRICES,
-  };
+  }), [
+    pharmacies,
+    bulletins,
+    ads,
+    approvals,
+    violations,
+    allMedicines,
+    setBulletins,
+    setApprovals,
+    setViolations,
+    addBulletin,
+    updateApprovalStatus,
+    updateViolationStatus,
+    getPharmacyById,
+    getMedicineById,
+    getPharmacyMedicines,
+    getPharmacyOffers,
+    searchMedicines,
+    searchPharmacies,
+  ]);
 
   return <DataContext.Provider value={value}>{children}</DataContext.Provider>;
 };

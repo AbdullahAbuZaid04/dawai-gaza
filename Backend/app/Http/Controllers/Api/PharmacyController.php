@@ -42,10 +42,10 @@ public function registerRequest(Request $request)
         'address_note'     => 'nullable|string|max:255',
         'governorate_id'   => 'required|integer|exists:governorates,governorate_id',
         'license_number'   => 'required|string|max:100', //
-        'password'         => 'required|string|min:6',   // 
+        'password'         => 'required|string|min:6',   //
         'open_time'        => 'required',
         'close_time'       => 'required',
-        
+
     ]);
 
     return \Illuminate\Support\Facades\DB::transaction(function () use ($request) {
@@ -59,7 +59,7 @@ public function registerRequest(Request $request)
             'open_time'        => $request->open_time,
             'close_time'       => $request->close_time,
             'google_maps_link' => $request->google_maps_link,
-            
+
         ]);
 
         $user = \App\Models\User::create([
@@ -69,7 +69,7 @@ public function registerRequest(Request $request)
             'password'    => \Illuminate\Support\Facades\Hash::make($request->password),
             'role'        => 'Pharmacist',
             'phone'       => $request->phone,
-            'is_active'   => false, //    
+            'is_active'   => false, //
             'status'      => 'pending',
         ]);
 
@@ -120,7 +120,7 @@ public function registerRequest(Request $request)
 
         $pharmacy = Pharmacy::create($validated);
 
-        return response()->json($pharmacy->load('governorate'), 201);
+        return response()->json($this->formatPharmacy($pharmacy->load('governorate')), 201);
     }
 
     // -----------------------------------------------------------------------
@@ -134,12 +134,12 @@ public function registerRequest(Request $request)
             'id'           => $p->pharmacy_id,
             'name'         => $p->pharmacy_name_ar,
             'name_en'      => $p->pharmacy_name_en,
-            'open_time'    => $p->open_time, 
+            'open_time'    => $p->open_time,
         'close_time'   => $p->close_time,
         'is_active'    => $user ? (bool) $user->is_active : false,
         'reject_reason'=> $user ? $user->reject_reason : null,
-        'status'       => $user ? $user->status : 'pending', // 
-        
+        'status'       => $user ? $user->status : 'pending', //
+
         'phone'        => $user ? $user->phone : null,
          'email'        => $user ? $user->email : null,
             'location'     => $p->governorate->name_ar . ' - ' . $p->area_name,

@@ -247,7 +247,7 @@ const Register = () => {
             </div>
 
             {errors.form && (
-              <div className="mt-4 p-4 bg-status-error/10 text-status-error rounded-xl text-sm font-bold border border-status-error/20 text-center">
+              <div role="alert" className="mt-4 p-4 bg-status-error/10 text-status-error rounded-xl text-sm font-bold border border-status-error/20 text-center">
                 {errors.form}
               </div>
             )}
@@ -268,30 +268,34 @@ const Register = () => {
 };
 
 // --- Reusable Input Field Component (Updated Style) ---
-const InputField = ({ label, name, value, onChange, placeholder, type = "text", icon, error }) => (
-  <div className="space-y-2 text-right">
-    <label className="block text-xs font-black text-content-light mr-2 uppercase tracking-wide">
-      {label}
-    </label>
-    <div className="relative group">
-      {React.cloneElement(icon, {
-        className: `absolute right-4 top-1/2 -translate-y-1/2 !text-[20px] transition-colors ${
-          error ? "text-status-error" : "text-primary"
-        }`,
-      })}
-      <input
-        name={name}
-        type={type}
-        value={value}
-        onChange={onChange}
-        placeholder={placeholder}
-        className={`w-full pr-12 pl-4 py-3.5 rounded-xl bg-ui-bg/25 border-2 border-ui-border outline-none font-bold text-content-main transition-all ${
-          error ? "border-status-error" : "border-transparent focus:border-primary "
-        }`}
-      />
+const InputField = ({ label, name, value, onChange, placeholder, type = "text", icon, error }) => {
+  const inputId = `register-${name}`;
+  return (
+    <div className="space-y-2 text-right">
+      <label htmlFor={inputId} className="block text-xs font-black text-content-light mr-2 uppercase tracking-wide">
+        {label}
+      </label>
+      <div className="relative group">
+        {React.cloneElement(icon, {
+          className: `absolute right-4 top-1/2 -translate-y-1/2 !text-[20px] transition-colors ${
+            error ? "text-status-error" : "text-primary"
+          }`,
+        })}
+        <input
+          id={inputId}
+          name={name}
+          type={type}
+          value={value}
+          onChange={onChange}
+          placeholder={placeholder}
+          className={`w-full pr-12 pl-4 py-3.5 rounded-xl bg-ui-bg/25 border-2 border-ui-border outline-none font-bold text-content-main transition-all ${
+            error ? "border-status-error" : "border-transparent focus:border-primary "
+          }`}
+        />
+      </div>
+      {error && <p role="alert" className="text-status-error text-xs font-bold mr-2 mt-1">{error}</p>}
     </div>
-    {error && <p className="text-status-error text-xs font-bold mr-2 mt-1">{error}</p>}
-  </div>
-);
+  );
+};
 
 export default Register;
