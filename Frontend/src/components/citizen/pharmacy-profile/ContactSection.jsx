@@ -1,5 +1,6 @@
 import { Phone, Mail, MapPin, Clock } from "lucide-react";
 import InfoStatsCard from "../../common/InfoStatsCard";
+import { formatTimeRangeArabic } from "../../../utils/time";
 
 function ContactSection({ pharmacy }) {
   return (
@@ -29,7 +30,7 @@ function ContactSection({ pharmacy }) {
         <InfoStatsCard
           icon={<Clock size={24} />}
           label="أوقات الدوام"
-          value={`${pharmacy.open_time} - ${pharmacy.close_time}`}
+          value={formatTimeRangeArabic(pharmacy.open_time, pharmacy.close_time)}
 
           color="#f59e0b"
         />

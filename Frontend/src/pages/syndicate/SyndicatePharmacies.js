@@ -6,6 +6,7 @@ import PhoneIcon from "@mui/icons-material/PhoneOutlined";
 import VerifiedUserIcon from "@mui/icons-material/VerifiedUserOutlined";
 import MailIcon from "@mui/icons-material/EmailOutlined";
 import AccessTimeOutlinedIcon from "@mui/icons-material/AccessTimeOutlined";
+import { formatTimeRangeArabic } from "../../utils/time";
 
 import axios from "axios";
 import API_BASE_URL from "../../config/api";
@@ -101,7 +102,7 @@ function SyndicatePharmacies() {
                   <AccessTimeOutlinedIcon className="w-4 h-4 text-primary/70" />
                   <span className="text-sm font-bold">
                     {"ساعات العمل : "}
-                    {pharmacy.open_time || "غير متوفر"} {"-"} {pharmacy.close_time || "غير متوفر"}
+                    {formatTimeRangeArabic(pharmacy.open_time, pharmacy.close_time)}
                   </span>
                 </div>
               </div>

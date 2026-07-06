@@ -1,5 +1,6 @@
 import { MapPin, Eye, Phone, Clock, Navigation } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { formatTimeRangeArabic } from "../../../utils/time";
 
 function PharmaciesCard({ pharmacy, tinted = false }) {
   const navigate = useNavigate();
@@ -27,7 +28,7 @@ function PharmaciesCard({ pharmacy, tinted = false }) {
           <div className="flex items-center gap-2">
             <Clock className="text-content-light" size={16} />
             <p className="text-sm text-content-light">
-              {`${pharmacy.working.open} - ${pharmacy.working.close}`}
+              {formatTimeRangeArabic(pharmacy.working.open, pharmacy.working.close)}
             </p>
           </div>
         </div>
