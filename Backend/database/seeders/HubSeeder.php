@@ -48,7 +48,7 @@ class HubSeeder extends Seeder
             ['user_id' => 6, 'pharmacy_id' => 5, 'full_name' => 'Omar ICRC', 'email' => 'omar.icrc@dawai.ps', 'password' => Hash::make('pharm123'), 'role' => 'Pharmacist', 'phone' => '+970590000008', 'is_active' => 1],
         ]);
 
-        // Medicines
+        // Medicines (22 common medicines)
         DB::table('medicines')->insert([
             [
                 'medicine_id' => 1, 'name_en' => 'Paracetamol', 'name_ar' => 'باراسيتامول',
@@ -90,15 +90,196 @@ class HubSeeder extends Seeder
                 'leaflet_side_effects' => 'قد يسبب انخفاض في مستوى سكر الدم (نقص سكر الدم).',
                 'leaflet_contraindications' => 'يستخدم بحذر مع مراقبة منتظمة لمستوى الجلوكوز.', 'is_active' => 1,
             ],
+            [
+                'medicine_id' => 6, 'name_en' => 'Panadol', 'name_ar' => 'بنادول',
+                'dosage_form' => 'أقراص', 'strength' => '500 مجم',
+                'leaflet_uses' => 'مسكن للآلام وخافض للحرارة. يحتوي على الباراسيتامول.',
+                'leaflet_dosage' => 'البالغين: قرص واحد كل 4-6 ساعات. لا تتجاوز 8 أقراص في اليوم.',
+                'leaflet_side_effects' => 'نادراً ما يحدث آثار جانبية عند الالتزام بالجرعة الموصى بها.',
+                'leaflet_contraindications' => 'يمنع تناوله مع أي أدوية أخرى تحتوي على الباراسيتامول.', 'is_active' => 1,
+            ],
+            [
+                'medicine_id' => 7, 'name_en' => 'Ibuprofen', 'name_ar' => 'ايبوبروفين',
+                'dosage_form' => 'أقراص', 'strength' => '400 مجم',
+                'leaflet_uses' => 'مضاد للالتهابات ومسكن للآلام وخافض للحرارة.',
+                'leaflet_dosage' => 'قرص واحد كل 6-8 ساعات بعد الأكل.',
+                'leaflet_side_effects' => 'قد يسبب حرقة في المعدة أو اضطراب في الهضم.',
+                'leaflet_contraindications' => 'يمنع استخدامه لمرضى القرحة المعدية أو الربو التحسسي.', 'is_active' => 1,
+            ],
+            [
+                'medicine_id' => 8, 'name_en' => 'Azithromycin', 'name_ar' => 'أزيترومايسين',
+                'dosage_form' => 'كبسولات', 'strength' => '250 مجم',
+                'leaflet_uses' => 'مضاد حيوي لعلاج التهابات الجهاز التنفسي والتهابات الأذن والحلق.',
+                'leaflet_dosage' => 'عادةً حبة واحدة يومياً لمدة 3 أيام حسب توجيهات الطبيب.',
+                'leaflet_side_effects' => 'قد يسبب اضطراب في المعدة أو إسهال.',
+                'leaflet_contraindications' => 'يمنع في حالات الحساسية للماكروليدات.', 'is_active' => 1,
+            ],
+            [
+                'medicine_id' => 9, 'name_en' => 'Ciprofloxacin', 'name_ar' => 'سيبروفلوكساسين',
+                'dosage_form' => 'أقراص', 'strength' => '500 مجم',
+                'leaflet_uses' => 'مضاد حيوي لعلاج التهابات المسالك البولية والتهابات الجهاز التنفسي.',
+                'leaflet_dosage' => 'حبة واحدة كل 12 ساعة حسب توجيهات الطبيب.',
+                'leaflet_side_effects' => 'قد يسبب غثيان أو إسهال أو دوخة.',
+                'leaflet_contraindications' => 'يمنع استخدامه للأطفال والمراهقين خلال فترة النمو.', 'is_active' => 1,
+            ],
+            [
+                'medicine_id' => 10, 'name_en' => 'Omeprazole', 'name_ar' => 'أوميبرازول',
+                'dosage_form' => 'كبسولات', 'strength' => '20 مجم',
+                'leaflet_uses' => 'يستخدم لعلاج حموضة المعدة وقرحة المعدة والارتجاع المريئي.',
+                'leaflet_dosage' => 'كبسولة واحدة يومياً صباحاً قبل الأكل.',
+                'leaflet_side_effects' => 'قد يسبب صداع أو إمساك أو غثيان.',
+                'leaflet_contraindications' => 'يستخدم بحذر مع بعض الأدوية المميعة للدم.', 'is_active' => 1,
+            ],
+            [
+                'medicine_id' => 11, 'name_en' => 'Loratadine', 'name_ar' => 'لوراتادين',
+                'dosage_form' => 'أقراص', 'strength' => '10 مجم',
+                'leaflet_uses' => 'مضاد للحساسية يستخدم لتخفيف أعراض حساسية الأنف وحكة العيون.',
+                'leaflet_dosage' => 'قرص واحد يومياً.',
+                'leaflet_side_effects' => 'نادراً ما يسبب نعاس أو صداع.',
+                'leaflet_contraindications' => 'يستخدم بحذر في حالات القصور الكلوي أو الكبدي.', 'is_active' => 1,
+            ],
+            [
+                'medicine_id' => 12, 'name_en' => 'Diclofenac', 'name_ar' => 'دايكلوفيناك',
+                'dosage_form' => 'أقراص', 'strength' => '50 مجم',
+                'leaflet_uses' => 'مسكن للآلام ومضاد للالتهابات يستخدم لآلام المفاصل والعضلات.',
+                'leaflet_dosage' => 'قرص واحد كل 8-12 ساعة بعد الأكل.',
+                'leaflet_side_effects' => 'قد يسبب اضطراب في المعدة أو حرقة.',
+                'leaflet_contraindications' => 'يمنع استخدامه لمرضى القرحة المعدية أو الربو.', 'is_active' => 1,
+            ],
+            [
+                'medicine_id' => 13, 'name_en' => 'Amlodipine', 'name_ar' => 'أملوديبين',
+                'dosage_form' => 'أقراص', 'strength' => '5 مجم',
+                'leaflet_uses' => 'يستخدم لعلاج ارتفاع ضغط الدم والذبحة الصدرية.',
+                'leaflet_dosage' => 'قرص واحد يومياً حسب توجيهات الطبيب.',
+                'leaflet_side_effects' => 'قد يسبب تورم في الكاحلين أو دوخة.',
+                'leaflet_contraindications' => 'يستخدم بحذر في حالات انخفاض ضغط الدم الشديد.', 'is_active' => 1,
+            ],
+            [
+                'medicine_id' => 14, 'name_en' => 'Bisoprolol', 'name_ar' => 'بيسوبرولول',
+                'dosage_form' => 'أقراص', 'strength' => '5 مجم',
+                'leaflet_uses' => 'يستخدم لعلاج ارتفاع ضغط الدم وفشل القلب المزمن.',
+                'leaflet_dosage' => 'قرص واحد يومياً صباحاً حسب توجيهات الطبيب.',
+                'leaflet_side_effects' => 'قد يسبب بطء في ضربات القلب أو إرهاق.',
+                'leaflet_contraindications' => 'يمنع استخدامه في حالات الربو الشديد أو بطء القلب الشديد.', 'is_active' => 1,
+            ],
+            [
+                'medicine_id' => 15, 'name_en' => 'Multivitamin', 'name_ar' => 'مالتي فيتامين',
+                'dosage_form' => 'أقراص', 'strength' => 'مكمل غذائي',
+                'leaflet_uses' => 'مكمل غذائي متكامل يحتوي على فيتامينات ومعادن لتعزيز الصحة العامة.',
+                'leaflet_dosage' => 'قرص واحد يومياً مع الطعام.',
+                'leaflet_side_effects' => 'قد يسبب اضطراب بسيط في المعدة في بعض الحالات.',
+                'leaflet_contraindications' => 'يمنع تناوله مع مكملات أخرى تحتوي على نفس الفيتامينات.', 'is_active' => 1,
+            ],
+            [
+                'medicine_id' => 16, 'name_en' => 'Vitamin D3', 'name_ar' => 'فيتامين د',
+                'dosage_form' => 'أقراص', 'strength' => '1000 وحدة',
+                'leaflet_uses' => 'لتعويض نقص فيتامين د وتقوية العظام والمناعة.',
+                'leaflet_dosage' => 'قرص واحد يومياً.',
+                'leaflet_side_effects' => 'نادراً ما يحدث آثار جانبية عند الجرعات الموصى بها.',
+                'leaflet_contraindications' => 'يستخدم بحذر في حالات ارتفاع الكالسيوم في الدم.', 'is_active' => 1,
+            ],
+            [
+                'medicine_id' => 17, 'name_en' => 'Vitamin C', 'name_ar' => 'فيتامين سي',
+                'dosage_form' => 'أقراص', 'strength' => '500 مجم',
+                'leaflet_uses' => 'مضاد أكسدة يعزز المناعة ويساعد في التئام الجروح.',
+                'leaflet_dosage' => 'قرص واحد يومياً.',
+                'leaflet_side_effects' => 'قد يسبب اضطراب بسيط في المعدة عند الجرعات العالية.',
+                'leaflet_contraindications' => 'يستخدم بحذر في حالات حصوات الكلى.', 'is_active' => 1,
+            ],
+            [
+                'medicine_id' => 18, 'name_en' => 'Ferrous Sulfate', 'name_ar' => 'حديد',
+                'dosage_form' => 'أقراص', 'strength' => '200 مجم',
+                'leaflet_uses' => 'لعلاج والوقاية من فقر الدم الناتج عن نقص الحديد.',
+                'leaflet_dosage' => 'قرص واحد إلى قرصين يومياً بعد الأكل.',
+                'leaflet_side_effects' => 'قد يسبب إمساك أو تغير لون البراز.',
+                'leaflet_contraindications' => 'يمنع في حالات زيادة الحديد في الدم.', 'is_active' => 1,
+            ],
+            [
+                'medicine_id' => 19, 'name_en' => 'Calcium Carbonate', 'name_ar' => 'كالسيوم',
+                'dosage_form' => 'أقراص', 'strength' => '500 مجم',
+                'leaflet_uses' => 'مكمل غذائي لتقوية العظام والأسنان والوقاية من هشاشة العظام.',
+                'leaflet_dosage' => 'قرص واحد إلى قرصين يومياً مع الأكل.',
+                'leaflet_side_effects' => 'قد يسبب إمساك أو غازات.',
+                'leaflet_contraindications' => 'يمنع في حالات حصوات الكلى أو زيادة الكالسيوم.', 'is_active' => 1,
+            ],
+            [
+                'medicine_id' => 20, 'name_en' => 'Omega-3', 'name_ar' => 'اوميغا 3',
+                'dosage_form' => 'كبسولات', 'strength' => '1000 مجم',
+                'leaflet_uses' => 'مكمل غذائي لصحة القلب والدماغ وتقليل الالتهابات.',
+                'leaflet_dosage' => 'كبسولة واحدة يومياً مع الأكل.',
+                'leaflet_side_effects' => 'قد يسبب طعم سمكي أو غثيان بسيط.',
+                'leaflet_contraindications' => 'يستخدم بحذر مع مميعات الدم.', 'is_active' => 1,
+            ],
+            [
+                'medicine_id' => 21, 'name_en' => 'Lisinopril', 'name_ar' => 'ليسينوبريل',
+                'dosage_form' => 'أقراص', 'strength' => '10 مجم',
+                'leaflet_uses' => 'يستخدم لعلاج ارتفاع ضغط الدم وفشل القلب.',
+                'leaflet_dosage' => 'قرص واحد يومياً حسب توجيهات الطبيب.',
+                'leaflet_side_effects' => 'قد يسبب سعال جاف أو دوخة.',
+                'leaflet_contraindications' => 'يمنع استخدامه في حالات الحمل أو تضيق الشريان الكلوي.', 'is_active' => 1,
+            ],
+            [
+                'medicine_id' => 22, 'name_en' => 'Paracetamol Syrup', 'name_ar' => 'باراسيتامول شراب',
+                'dosage_form' => 'شراب', 'strength' => '250 مجم/5مل',
+                'leaflet_uses' => 'خافض للحرارة ومسكن للآلام مناسب للأطفال.',
+                'leaflet_dosage' => 'حسب وزن الطفل وتوجيهات الطبيب.',
+                'leaflet_side_effects' => 'قد يسبب غثيان في بعض الحالات.',
+                'leaflet_contraindications' => 'يمتنع استخدامه مع أدوية أخرى تحتوي على الباراسيتامول.', 'is_active' => 1,
+            ],
         ]);
 
-        // Inventory
+        // Inventory (each pharmacy stocks 7-9 medicines)
         DB::table('inventory')->insert([
-            ['pharmacy_id' => 2, 'medicine_id' => 1, 'quantity' => 120, 'price_ils' => 8.00, 'expiry_date' => '2027-01-15', 'stock_status' => 'In Stock'],
-            ['pharmacy_id' => 2, 'medicine_id' => 4, 'quantity' => 40, 'price_ils' => 12.00, 'expiry_date' => '2026-11-20', 'stock_status' => 'Low Stock'],
-            ['pharmacy_id' => 3, 'medicine_id' => 2, 'quantity' => 25, 'price_ils' => 18.00, 'expiry_date' => '2026-10-10', 'stock_status' => 'Low Stock'],
-            ['pharmacy_id' => 1, 'medicine_id' => 3, 'quantity' => 60, 'price_ils' => 22.00, 'expiry_date' => '2027-03-01', 'stock_status' => 'In Stock'],
-            ['pharmacy_id' => 5, 'medicine_id' => 5, 'quantity' => 10, 'price_ils' => 35.00, 'expiry_date' => '2026-09-01', 'stock_status' => 'Low Stock'],
+            // ---- Pharmacy 1: Al-Shifa - Gaza (9 items) ----
+            ['pharmacy_id' => 1, 'medicine_id' => 1,  'quantity' => 150, 'price_ils' => 7.00,  'expiry_date' => '2027-06-15', 'stock_status' => 'In Stock'],
+            ['pharmacy_id' => 1, 'medicine_id' => 6,  'quantity' => 80,  'price_ils' => 12.00, 'expiry_date' => '2027-05-01', 'stock_status' => 'In Stock'],
+            ['pharmacy_id' => 1, 'medicine_id' => 2,  'quantity' => 100, 'price_ils' => 15.00, 'expiry_date' => '2027-04-20', 'stock_status' => 'In Stock'],
+            ['pharmacy_id' => 1, 'medicine_id' => 3,  'quantity' => 60,  'price_ils' => 22.00, 'expiry_date' => '2027-03-01', 'stock_status' => 'In Stock'],
+            ['pharmacy_id' => 1, 'medicine_id' => 10, 'quantity' => 45,  'price_ils' => 18.00, 'expiry_date' => '2027-08-10', 'stock_status' => 'In Stock'],
+            ['pharmacy_id' => 1, 'medicine_id' => 11, 'quantity' => 70,  'price_ils' => 10.00, 'expiry_date' => '2027-07-01', 'stock_status' => 'In Stock'],
+            ['pharmacy_id' => 1, 'medicine_id' => 15, 'quantity' => 200, 'price_ils' => 25.00, 'expiry_date' => '2027-09-01', 'stock_status' => 'In Stock'],
+            ['pharmacy_id' => 1, 'medicine_id' => 16, 'quantity' => 90,  'price_ils' => 15.00, 'expiry_date' => '2027-10-01', 'stock_status' => 'In Stock'],
+            ['pharmacy_id' => 1, 'medicine_id' => 20, 'quantity' => 40,  'price_ils' => 35.00, 'expiry_date' => '2027-06-01', 'stock_status' => 'In Stock'],
+
+            // ---- Pharmacy 2: Nasser - Khan Younis (8 items) ----
+            ['pharmacy_id' => 2, 'medicine_id' => 1,  'quantity' => 120, 'price_ils' => 8.00,  'expiry_date' => '2027-01-15', 'stock_status' => 'In Stock'],
+            ['pharmacy_id' => 2, 'medicine_id' => 4,  'quantity' => 40,  'price_ils' => 12.00, 'expiry_date' => '2026-11-20', 'stock_status' => 'Low Stock'],
+            ['pharmacy_id' => 2, 'medicine_id' => 7,  'quantity' => 85,  'price_ils' => 9.00,  'expiry_date' => '2027-03-15', 'stock_status' => 'In Stock'],
+            ['pharmacy_id' => 2, 'medicine_id' => 13, 'quantity' => 55,  'price_ils' => 14.00, 'expiry_date' => '2027-04-01', 'stock_status' => 'In Stock'],
+            ['pharmacy_id' => 2, 'medicine_id' => 11, 'quantity' => 30,  'price_ils' => 11.00, 'expiry_date' => '2026-12-01', 'stock_status' => 'Low Stock'],
+            ['pharmacy_id' => 2, 'medicine_id' => 18, 'quantity' => 65,  'price_ils' => 10.00, 'expiry_date' => '2027-05-01', 'stock_status' => 'In Stock'],
+            ['pharmacy_id' => 2, 'medicine_id' => 17, 'quantity' => 100, 'price_ils' => 8.00,  'expiry_date' => '2027-07-01', 'stock_status' => 'In Stock'],
+            ['pharmacy_id' => 2, 'medicine_id' => 5,  'quantity' => 25,  'price_ils' => 35.00, 'expiry_date' => '2026-10-15', 'stock_status' => 'In Stock'],
+
+            // ---- Pharmacy 3: Al-Aqsa - Deir al-Balah (7 items) ----
+            ['pharmacy_id' => 3, 'medicine_id' => 2,  'quantity' => 25,  'price_ils' => 18.00, 'expiry_date' => '2026-10-10', 'stock_status' => 'Low Stock'],
+            ['pharmacy_id' => 3, 'medicine_id' => 8,  'quantity' => 50,  'price_ils' => 28.00, 'expiry_date' => '2027-02-01', 'stock_status' => 'In Stock'],
+            ['pharmacy_id' => 3, 'medicine_id' => 12, 'quantity' => 40,  'price_ils' => 8.00,  'expiry_date' => '2027-01-20', 'stock_status' => 'In Stock'],
+            ['pharmacy_id' => 3, 'medicine_id' => 10, 'quantity' => 35,  'price_ils' => 19.00, 'expiry_date' => '2027-03-10', 'stock_status' => 'In Stock'],
+            ['pharmacy_id' => 3, 'medicine_id' => 14, 'quantity' => 60,  'price_ils' => 12.00, 'expiry_date' => '2027-05-01', 'stock_status' => 'In Stock'],
+            ['pharmacy_id' => 3, 'medicine_id' => 15, 'quantity' => 120, 'price_ils' => 26.00, 'expiry_date' => '2027-08-01', 'stock_status' => 'In Stock'],
+            ['pharmacy_id' => 3, 'medicine_id' => 19, 'quantity' => 45,  'price_ils' => 15.00, 'expiry_date' => '2027-04-15', 'stock_status' => 'In Stock'],
+
+            // ---- Pharmacy 4: Al-Awda - Jabalia (8 items) ----
+            ['pharmacy_id' => 4, 'medicine_id' => 6,  'quantity' => 90,  'price_ils' => 13.00, 'expiry_date' => '2027-05-01', 'stock_status' => 'In Stock'],
+            ['pharmacy_id' => 4, 'medicine_id' => 7,  'quantity' => 70,  'price_ils' => 8.50,  'expiry_date' => '2027-03-01', 'stock_status' => 'In Stock'],
+            ['pharmacy_id' => 4, 'medicine_id' => 9,  'quantity' => 40,  'price_ils' => 20.00, 'expiry_date' => '2027-02-15', 'stock_status' => 'In Stock'],
+            ['pharmacy_id' => 4, 'medicine_id' => 11, 'quantity' => 20,  'price_ils' => 10.00, 'expiry_date' => '2026-11-01', 'stock_status' => 'Low Stock'],
+            ['pharmacy_id' => 4, 'medicine_id' => 16, 'quantity' => 60,  'price_ils' => 16.00, 'expiry_date' => '2027-06-01', 'stock_status' => 'In Stock'],
+            ['pharmacy_id' => 4, 'medicine_id' => 20, 'quantity' => 30,  'price_ils' => 36.00, 'expiry_date' => '2027-04-01', 'stock_status' => 'Low Stock'],
+            ['pharmacy_id' => 4, 'medicine_id' => 19, 'quantity' => 50,  'price_ils' => 14.00, 'expiry_date' => '2027-07-01', 'stock_status' => 'In Stock'],
+            ['pharmacy_id' => 4, 'medicine_id' => 17, 'quantity' => 75,  'price_ils' => 9.00,  'expiry_date' => '2027-08-01', 'stock_status' => 'In Stock'],
+
+            // ---- Pharmacy 5: ICRC - Rafah (9 items) ----
+            ['pharmacy_id' => 5, 'medicine_id' => 3,  'quantity' => 20,  'price_ils' => 23.00, 'expiry_date' => '2026-12-01', 'stock_status' => 'Low Stock'],
+            ['pharmacy_id' => 5, 'medicine_id' => 5,  'quantity' => 10,  'price_ils' => 35.00, 'expiry_date' => '2026-09-01', 'stock_status' => 'Low Stock'],
+            ['pharmacy_id' => 5, 'medicine_id' => 2,  'quantity' => 100, 'price_ils' => 16.00, 'expiry_date' => '2027-04-01', 'stock_status' => 'In Stock'],
+            ['pharmacy_id' => 5, 'medicine_id' => 4,  'quantity' => 60,  'price_ils' => 11.00, 'expiry_date' => '2027-03-01', 'stock_status' => 'In Stock'],
+            ['pharmacy_id' => 5, 'medicine_id' => 12, 'quantity' => 45,  'price_ils' => 7.50,  'expiry_date' => '2027-02-01', 'stock_status' => 'In Stock'],
+            ['pharmacy_id' => 5, 'medicine_id' => 15, 'quantity' => 80,  'price_ils' => 27.00, 'expiry_date' => '2027-06-01', 'stock_status' => 'In Stock'],
+            ['pharmacy_id' => 5, 'medicine_id' => 18, 'quantity' => 35,  'price_ils' => 11.00, 'expiry_date' => '2027-05-01', 'stock_status' => 'In Stock'],
+            ['pharmacy_id' => 5, 'medicine_id' => 1,  'quantity' => 200, 'price_ils' => 6.50,  'expiry_date' => '2027-07-01', 'stock_status' => 'In Stock'],
+            ['pharmacy_id' => 5, 'medicine_id' => 22, 'quantity' => 30,  'price_ils' => 10.00, 'expiry_date' => '2027-08-01', 'stock_status' => 'In Stock'],
         ]);
 
         // Promotions
