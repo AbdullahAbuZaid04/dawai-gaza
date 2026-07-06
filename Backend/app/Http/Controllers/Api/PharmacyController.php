@@ -48,7 +48,11 @@ public function registerRequest(Request $request)
         'google_maps_link' => 'nullable|url|max:500',
     ]);
 
-    return \Illuminate\Support\Facades\DB::transaction(function () use ($request) {
+    $coords = $request->google_maps_link
+        ? $this->extractCoordsFromUrl($request->google_maps_link)
+        : null;
+
+    return \Illuminate\Support\Facades\DB::transaction(function () use ($request, $coords) {
         $pharmacy = Pharmacy::create([
             'pharmacy_name_ar' => $request->pharmacy_name_ar,
             'pharmacy_name_en' => $request->pharmacy_name_ar ,
@@ -59,7 +63,8 @@ public function registerRequest(Request $request)
             'open_time'        => $request->open_time,
             'close_time'       => $request->close_time,
             'google_maps_link' => $request->google_maps_link,
-
+            'latitude'         => $coords['lat'] ?? null,
+            'longitude'        => $coords['lng'] ?? null,
         ]);
 
         $user = \App\Models\User::create([
@@ -127,8 +132,19 @@ public function registerRequest(Request $request)
     }
 
     // -----------------------------------------------------------------------
-    // Private helper
+    // Private helpers
     // -----------------------------------------------------------------------
+
+    private function extractCoordsFromUrl(string $url): ?array
+    {
+        if (preg_match('/@(-?\d+\.?\d*),(-?\d+\.?\d*)/', $url, $m)) {
+            return ['lat' => (float) $m[1], 'lng' => (float) $m[2]];
+        }
+        if (preg_match('/[?&]q=(-?\d+\.?\d*),(-?\d+\.?\d*)/', $url, $m)) {
+            return ['lat' => (float) $m[1], 'lng' => (float) $m[2]];
+        }
+        return null;
+    }
 
     private function formatPharmacy(Pharmacy $p): array
     {
