@@ -14,8 +14,7 @@ class MedicineController extends Controller
      */
 public function index(Request $request)
 {
-    $query = Medicine::with(['inventory.pharmacy']);
-    $query->where('is_active', true);
+    $query = Medicine::where('is_active', true);
 
     if ($request->filled('search')) {
         $searchTerm = $request->search;
@@ -27,7 +26,12 @@ public function index(Request $request)
 
     $medicines = $query->paginate(16);
 
-    return response()->json($medicines);
+    return response()->json([
+        'data' => $medicines->items(),
+        'total' => $medicines->total(),
+        'last_page' => $medicines->lastPage(),
+        'current_page' => $medicines->currentPage(),
+    ]);
 }
 
     /**

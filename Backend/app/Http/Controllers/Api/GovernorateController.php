@@ -15,7 +15,14 @@ class GovernorateController extends Controller
      */
     public function index()
     {
-        return response()->json(Governorate::all());
+        return response()->json(
+            Governorate::all()->map(fn($g) => [
+                'id'      => $g->governorate_id,
+                'name_en' => $g->name_en,
+                'name_ar' => $g->name_ar,
+                'main_city' => $g->main_city,
+            ])
+        );
     }
 
     /**
@@ -43,11 +50,17 @@ class GovernorateController extends Controller
                 'phone'        => $c->phone,
                 'image_url'    => $c->image_url,
                 'description'  => $c->description,
-                'governorate'  => $c->governorate,
+                'governorate'  => [
+                    'id'   => $c->governorate->governorate_id,
+                    'name' => $c->governorate->name_ar,
+                ],
             ]);
 
         return response()->json([
-            'governorate' => $governorate,
+            'governorate' => [
+                'id'   => $governorate->governorate_id,
+                'name' => $governorate->name_ar,
+            ],
             'centers'     => $centers,
         ]);
     }
@@ -78,15 +91,18 @@ class GovernorateController extends Controller
                 'medicines'    => $p->inventory->map(fn($i) => [
                     'id'           => $i->inventory_id,
                     'medicine_id'  => $i->medicine->medicine_id,
-                    'nameAr'       => $i->medicine->name_ar,
-                    'nameEn'       => $i->medicine->name_en,
+                    'name_ar'      => $i->medicine->name_ar,
+                    'name_en'      => $i->medicine->name_en,
                     'price'        => (float) $i->price_ils,
                     'stock_status' => $i->stock_status,
                 ]),
             ]);
 
         return response()->json([
-            'governorate' => $governorate,
+            'governorate' => [
+                'id'   => $governorate->governorate_id,
+                'name' => $governorate->name_ar,
+            ],
             'pharmacies'  => $pharmacies,
         ]);
     }

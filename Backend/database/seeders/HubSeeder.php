@@ -11,7 +11,7 @@ class HubSeeder extends Seeder
     /**
      * Run the database seeds.
      */
-    public function up(): void
+    public function run(): void
     {
         // Governorates
         DB::table('governorates')->insert([
@@ -111,13 +111,5 @@ class HubSeeder extends Seeder
 
         ]);
 
-    }
-
-    /**
-     * Run the database seeds.
-     */
-    public function run(): void
-    {
-        $this->up();
     }
 }
