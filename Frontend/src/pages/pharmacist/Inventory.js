@@ -75,8 +75,7 @@ function Inventory() {
     setError("");
     try {
       const res = await axios.get(`${API_BASE_URL}/medicines`, config);
-      const data = Array.isArray(res.data.data) ? res.data : res.data.data.medicines || [];
-      setAvailableMedicines(data.data);
+      setAvailableMedicines(res.data.data || res.data || []);
       setFormData({ medicine_id: "", price: "", quantity: "", expiry_date: "" });
       setShowAddModal(true);
     } catch (err) {
@@ -229,7 +228,7 @@ function Inventory() {
         onClose={() => setShowDeleteModal(false)}
         onConfirm={handleDelete}
         title="تأكيد حذف الدواء"
-        message={`هل أنت متأكد من رغبتك في حذف ؟`}
+        message={`هل أنت متأكد من رغبتك في حذف ${medicineToDelete?.medicine?.name_ar || medicineToDelete?.name_ar || "هذا الدواء"}؟`}
       />
     </div>
   );
