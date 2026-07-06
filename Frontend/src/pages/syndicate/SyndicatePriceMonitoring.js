@@ -1,9 +1,8 @@
 import { useState, useEffect, useMemo } from "react";
-import WarningIcon from "@mui/icons-material/Warning";
-import GavelIcon from "@mui/icons-material/Gavel";
-import AssignmentIcon from "@mui/icons-material/Assignment";
+import { AlertTriangle, Scale, ClipboardList } from "lucide-react";
 import axios from "axios";
 import API_BASE_URL from "../../config/api";
+import ConfirmDialog from "../../components/common/ConfirmDialog";
 
 function PriceMonitoring() {
   const [violations, setViolations] = useState([]);
@@ -13,6 +12,7 @@ function PriceMonitoring() {
   const [snackbar, setSnackbar] = useState({ open: false, message: "" });
   const [compareSearch, setCompareSearch] = useState("");
   const [violationsPage] = useState(0);
+  const [confirmAction, setConfirmAction] = useState(null);
   const rowsPerPage = 10;
 
   const token = localStorage.getItem("token");
@@ -64,6 +64,7 @@ function PriceMonitoring() {
     } catch (err) {
       console.error("Error updating status:", err);
     }
+    setConfirmAction(null);
   };
 
   const getDeviation = (official, sold) =>
@@ -71,8 +72,8 @@ function PriceMonitoring() {
 
   const filteredData = violations.filter((item) => {
     const matchesSearch =
-      item.pharmacy.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      item.medicine.toLowerCase().includes(searchTerm.toLowerCase());
+      item.pharmacy?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.medicine?.toLowerCase().includes(searchTerm.toLowerCase());
     return activeTab === 0
       ? item.status === "new" && matchesSearch
       : (item.status === "warned" || item.status === "fined") && matchesSearch;
@@ -85,13 +86,20 @@ function PriceMonitoring() {
     warned: violations.filter((v) => v.status === "warned").length,
   };
 
+  const confirmData = confirmAction
+    ? {
+        id: confirmAction.id,
+        action: confirmAction.action,
+        pharmacy: violations.find((v) => v.id === confirmAction.id)?.pharmacy,
+      }
+    : null;
+
   return (
     <div className="p-4 md:p-12 w-full min-h-screen bg-ui-gray text-right" dir="rtl">
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-content-main">مراقبة الأسعار</h1>
         <p className="text-content-light mt-1">
-          {" "}
-          متابعة الالتزام بالتسعيرة الدوائية الرسمية واتخاذ الإجراءات التأديبية{" "}
+          متابعة الالتزام بالتسعيرة الدوائية الرسمية واتخاذ الإجراءات التأديبية
         </p>
       </div>
 
@@ -103,7 +111,7 @@ function PriceMonitoring() {
             value: stats.total,
             border: "border-status-success",
             text: "text-status-success",
-            icon: <AssignmentIcon />,
+            icon: <ClipboardList className="w-6 h-6" />,
             color: "success",
           },
           {
@@ -111,15 +119,15 @@ function PriceMonitoring() {
             value: stats.active,
             border: "border-content-main",
             text: "text-content-main",
-            icon: <WarningIcon />,
+            icon: <AlertTriangle className="w-6 h-6" />,
             color: "warning",
           },
           {
-            label: "تحذيرات ",
+            label: "تحذيرات",
             value: stats.warned,
             border: "border-status-error",
             text: "text-status-error",
-            icon: <WarningIcon />,
+            icon: <AlertTriangle className="w-6 h-6" />,
             color: "warning",
           },
           {
@@ -127,7 +135,7 @@ function PriceMonitoring() {
             value: stats.fined,
             border: "border-status-warning",
             text: "text-status-warning",
-            icon: <GavelIcon />,
+            icon: <Scale className="w-6 h-6" />,
             color: "error",
           },
         ].map((stat, i) => (
@@ -136,7 +144,7 @@ function PriceMonitoring() {
             className={`bg-ui-card p-8 rounded-xl shadow-sm border border-dashed ${stat.border}`}
           >
             <span
-              className={`p-4 rounded-2xl  ${getStyle(stat.color).bg} ${getStyle(stat.color).text}`}
+              className={`p-4 rounded-2xl inline-flex ${getStyle(stat.color).bg} ${getStyle(stat.color).text}`}
             >
               {stat.icon}
             </span>
@@ -161,12 +169,14 @@ function PriceMonitoring() {
         <button
           onClick={() => setActiveTab(0)}
           className={`pb-3 ${activeTab === 0 ? "border-b-2 border-primary text-primary font-bold" : "text-content-light"}`}
+          aria-label={`البلاغات النشطة (${stats.active})`}
         >
           نشطة ({stats.active})
         </button>
         <button
           onClick={() => setActiveTab(1)}
           className={`pb-3 ${activeTab === 1 ? "border-b-2 border-primary text-primary font-bold" : "text-content-light"}`}
+          aria-label={`البلاغات المغلقة (${stats.total - stats.active})`}
         >
           مغلقة ({stats.total - stats.active})
         </button>
@@ -192,11 +202,11 @@ function PriceMonitoring() {
               ))}
             </tr>
           </thead>
-          <tbody className="divide-y divide-border">
+          <tbody className="divide-y divide-ui-border">
             {filteredData
               .slice(violationsPage * rowsPerPage, (violationsPage + 1) * rowsPerPage)
               .map((row) => (
-                <tr key={row.id} className="hover:bg-ui-gray transition-colors">
+                <tr key={row.id} className="hover:bg-ui-gray/50 transition-colors">
                   <td className="px-6 py-4">
                     <div className="font-bold text-content-main">{row.pharmacy}</div>
                     <div className="text-xs text-content-light mt-1">{row.date}</div>
@@ -229,11 +239,19 @@ function PriceMonitoring() {
                   <td className="px-6 py-4">
                     {activeTab === 0 && (
                       <div className="flex gap-2 justify-center">
-                        <button onClick={() => handleAction(row.id, "warn")}>
-                          <WarningIcon className="text-status-warning" />
+                        <button
+                          onClick={() => setConfirmAction({ id: row.id, action: "warn" })}
+                          className="p-2 rounded-lg bg-status-warning/10 text-status-warning hover:bg-status-warning/20 transition-all"
+                          aria-label={`إرسال تحذير لـ ${row.pharmacy}`}
+                        >
+                          <AlertTriangle className="w-5 h-5" />
                         </button>
-                        <button onClick={() => handleAction(row.id, "fine")}>
-                          <GavelIcon className="text-status-error" />
+                        <button
+                          onClick={() => setConfirmAction({ id: row.id, action: "fine" })}
+                          className="p-2 rounded-lg bg-status-error/10 text-status-error hover:bg-status-error/20 transition-all"
+                          aria-label={`تسجيل مخالفة مالية على ${row.pharmacy}`}
+                        >
+                          <Scale className="w-5 h-5" />
                         </button>
                       </div>
                     )}
@@ -249,8 +267,7 @@ function PriceMonitoring() {
         <div className="p-6 border-b border-ui-border">
           <h2 className="text-xl font-bold text-content-main">مقارنة أسعار دواء</h2>
           <p className="text-content-light mt-1">
-            {" "}
-            تحليل فرق السعر لنفس الصنف بين الصيدليات المختلفة{" "}
+            تحليل فرق السعر لنفس الصنف بين الصيدليات المختلفة
           </p>
         </div>
         <div className="p-6">
@@ -261,10 +278,11 @@ function PriceMonitoring() {
               value={compareSearch}
               onChange={(e) => setCompareSearch(e.target.value)}
             />
-            <button className="bg-primary text-white px-6 py-2 rounded-lg font-bold">تحديث</button>
+            <button className="bg-primary text-white px-6 py-2 rounded-lg font-bold" aria-label="تحديث المقارنة">
+              تحديث
+            </button>
           </div>
-          {/* Comparison Table -   */}
-          <table className="w-full  border border-ui-border">
+          <table className="w-full border border-ui-border">
             <thead className="bg-ui-gray border-b font-bold">
               <tr>
                 {["الصيدلية", "الدواء", "السعر", "الحالة", "تاريخ الانتهاء"].map((h) => (
@@ -276,17 +294,21 @@ function PriceMonitoring() {
             </thead>
             <tbody>
               {medicines
-                .filter((m) => m.name_ar.includes(compareSearch))
+                .filter((m) => m.name_ar?.includes(compareSearch))
                 .map((item, i) => (
-                  <tr key={i} className="border-b">
-                    <td className="p-3 ">{item.pharmacy_name}</td>
-                    <td className="p-3">{item.name_ar}</td>
+                  <tr key={i} className="border-b hover:bg-ui-gray/30 transition-colors">
+                    <td className="p-3 text-content-main font-medium">{item.pharmacy_name}</td>
+                    <td className="p-3 text-content-main">{item.name_ar}</td>
                     <td className="p-3 text-primary font-bold">{item.price} ₪</td>
                     <td className="p-3">
                       <span
-                        className={`px-2 py-1 rounded-full text-xs ${item.stock_status === "In Stock" ? "bg-status-success/10 text-status-success" : "bg-status-warning/10 text-status-warning"}`}
+                        className={`px-2 py-1 rounded-full text-xs font-bold ${
+                          item.stock_status === "In Stock" || item.quantity > 0
+                            ? "bg-status-success/10 text-status-success"
+                            : "bg-status-warning/10 text-status-warning"
+                        }`}
                       >
-                        {item.stock_status}
+                        {item.quantity > 0 ? "متوفر" : "غير متوفر"}
                       </span>
                     </td>
                     <td className="p-3 text-content-light">{item.expiry_date}</td>
@@ -298,10 +320,28 @@ function PriceMonitoring() {
       </div>
 
       {snackbar.open && (
-        <div className="fixed bottom-8 left-8 bg-black text-white px-6 py-3 rounded-xl z-50">
+        <div
+          className="fixed bottom-8 left-8 bg-gray-900 text-white px-6 py-3 rounded-xl z-50 shadow-2xl"
+          role="alert"
+        >
           {snackbar.message}
         </div>
       )}
+
+      <ConfirmDialog
+        isOpen={!!confirmAction}
+        onClose={() => setConfirmAction(null)}
+        onConfirm={() => confirmData && handleAction(confirmData.id, confirmData.action)}
+        title={confirmData?.action === "warn" ? "تأكيد إرسال تحذير" : "تأكيد تسجيل مخالفة مالية"}
+        message={
+          confirmData?.action === "warn"
+            ? `هل أنت متأكد من إرسال تحذير إلى "${confirmData?.pharmacy}"؟`
+            : `هل أنت متأكد من تسجيل مخالفة مالية على "${confirmData?.pharmacy}"؟`
+        }
+        confirmText={confirmData?.action === "warn" ? "نعم، أرسل تحذير" : "نعم، سجل مخالفة"}
+        cancelText="إلغاء"
+        variant={confirmData?.action === "warn" ? "warning" : "danger"}
+      />
     </div>
   );
 }

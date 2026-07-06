@@ -1,12 +1,10 @@
 import { useState, useEffect } from "react";
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import CancelIcon from "@mui/icons-material/Cancel";
+import { Eye, CheckCircle, XOctagon } from "lucide-react";
 import axios from "axios";
 import API_BASE_URL from "../../config/api";
 
 function Approvals() {
-  const [pharmacists, setPharmacists] = useState([]); //
+  const [pharmacists, setPharmacists] = useState([]);
   const [selectedTab, setSelectedTab] = useState("pending");
   const [openModal, setOpenModal] = useState(false);
   const [selectedRequest, setSelectedRequest] = useState(null);
@@ -64,19 +62,19 @@ function Approvals() {
     switch (row.status) {
       case "approved":
         return (
-          <span className="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-bold">
+          <span className="bg-status-success/10 text-status-success px-3 py-1 rounded-full text-xs font-bold">
             معتمد
           </span>
         );
       case "rejected":
         return (
-          <span className="bg-red-100 text-red-700 px-3 py-1 rounded-full text-xs font-bold">
+          <span className="bg-status-error/10 text-status-error px-3 py-1 rounded-full text-xs font-bold">
             مرفوض
           </span>
         );
       default:
         return (
-          <span className="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-xs font-bold">
+          <span className="bg-status-warning/10 text-status-warning px-3 py-1 rounded-full text-xs font-bold">
             قيد المراجعة
           </span>
         );
@@ -158,7 +156,7 @@ function Approvals() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-screen bg-ui-gray/50">
-        <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+        <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin" />
       </div>
     );
   }
@@ -171,7 +169,7 @@ function Approvals() {
           طلبات اعتماد الصيدليات
         </h1>
         <p className="text-content-light mt-1">
-          مراجعة واعتماد طلبات الترخيص والاشتراك الجديدة لضمان الامتثال للمعايير{" "}
+          مراجعة واعتماد طلبات الترخيص والاشتراك الجديدة لضمان الامتثال للمعايير
         </p>
       </div>
 
@@ -190,6 +188,7 @@ function Approvals() {
                 ? "bg-primary text-white shadow-md shadow-primary/20"
                 : "text-content-light hover:bg-ui-gray/50"
             }`}
+            aria-label={`${tab.label} (${countByStatus(tab.key)})`}
           >
             {tab.label}
             <span
@@ -212,10 +211,10 @@ function Approvals() {
             <thead className="bg-ui-gray border-b border-ui-border">
               <tr>
                 {[
-                  " الصيدلية",
+                  "الصيدلية",
                   "البريد الإلكتروني",
                   "رقم الهاتف",
-                  "الموقع ",
+                  "الموقع",
                   "الحالة",
                   "الإجراء",
                 ].map((head) => (
@@ -225,11 +224,11 @@ function Approvals() {
                 ))}
               </tr>
             </thead>
-            <tbody className="divide-y divide-border">
+            <tbody className="divide-y divide-ui-border">
               {filteredRequests.length === 0 ? (
                 <tr>
                   <td
-                    colSpan="5"
+                    colSpan="6"
                     className="py-20 text-center text-content-main text-lg font-bold bg-ui-card rounded-2xl border border-dashed border-ui-border"
                   >
                     لا توجد طلبات في هذا القسم حالياً
@@ -251,8 +250,9 @@ function Approvals() {
                       <button
                         onClick={() => handleOpenReview(row)}
                         className="flex items-center gap-2 px-4 py-1.5 border border-primary/20 text-primary rounded-lg hover:bg-primary hover:text-white transition-all font-bold mx-auto"
+                        aria-label={`مراجعة طلب ${row.pharmacy ? row.pharmacy.name_ar : row.full_name}`}
                       >
-                        <VisibilityIcon className="!text-[18px]" />
+                        <Eye className="w-[18px] h-[18px]" />
                         مراجعة
                       </button>
                     </td>
@@ -264,20 +264,25 @@ function Approvals() {
         </div>
       </div>
 
-      {/* Custom Modal */}
+      {/* Review Modal */}
       {openModal && selectedRequest && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-ui-bg/60 backdrop-blur-sm">
-          <div className="bg-ui-card w-full max-w-xl rounded-2xl shadow-2xl overflow-hidden animate-in fade-in zoom-in duration-200 border border-border">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
+          <div
+            className="bg-ui-card w-full max-w-xl rounded-2xl shadow-2xl overflow-hidden border border-ui-border"
+            role="dialog"
+            aria-modal="true"
+            aria-label="مراجعة طلب الترخيص"
+          >
             {/* Modal Header */}
             <div className="px-8 py-6 border-b border-ui-border flex justify-between items-center bg-ui-card">
-              <h3 className="text-xl font-bold text-text">مراجعة طلب الترخيص والاعتماد</h3>
+              <h3 className="text-xl font-bold text-content-main">مراجعة طلب الترخيص والاعتماد</h3>
               {getStatusBadge(selectedRequest)}
             </div>
 
             {/* Modal Body */}
             <div className="p-8">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                <div className="bg-surface-alt p-6 rounded-2xl border border-border col-span-2">
+                <div className="bg-ui-gray p-6 rounded-2xl border border-ui-border col-span-2">
                   <h4 className="font-bold text-content-main mb-3 border-r-4 border-primary pr-2 leading-none">
                     بيانات حساب الصيدلاني مقدم الطلب
                   </h4>
@@ -302,7 +307,7 @@ function Approvals() {
                   </div>
                 </div>
 
-                {/*   */}
+                {/* Reject reason input */}
                 {!selectedRequest.is_active &&
                   !selectedRequest.reject_reason &&
                   !selectedRequest.reason &&
@@ -314,8 +319,8 @@ function Approvals() {
                       <textarea
                         className={`w-full p-4 border rounded-2xl outline-none min-h-[100px] text-sm font-medium bg-ui-card text-content-main resize-none transition-all ${
                           rejectError
-                            ? "border-status-error ring-status-error/20"
-                            : "border-border focus:border-primary focus:ring-primary/20"
+                            ? "border-status-error ring-2 ring-status-error/20"
+                            : "border-ui-border focus:border-primary focus:ring-2 focus:ring-primary/20"
                         }`}
                         placeholder="اكتب سبب الرفض هنا ليتم إعلام الصيدلي..."
                         value={rejectReason}
@@ -332,7 +337,7 @@ function Approvals() {
                     </div>
                   )}
 
-                {/*      */}
+                {/* Existing reject reason */}
                 {(selectedRequest.reject_reason || selectedRequest.reason) && (
                   <div className="col-span-1 md:col-span-2 bg-status-error/5 p-4 rounded-xl border border-status-error/20">
                     <p className="text-status-error font-bold text-sm">
@@ -349,31 +354,30 @@ function Approvals() {
               <div className="flex gap-4 pt-4 border-t border-ui-border">
                 <button
                   onClick={handleCloseModal}
-                  className="flex-1 py-3 text-text-light font-bold hover:bg-ui-gray rounded-xl transition-colors border border-ui-border"
+                  className="flex-1 py-3 text-content-light font-bold hover:bg-ui-gray rounded-xl transition-colors border border-ui-border"
                 >
                   إغلاق
                 </button>
 
-                {/*         */}
                 {!selectedRequest.is_active && (
                   <>
-                    {/* ( )*/}
                     {!selectedRequest.reject_reason && !selectedRequest.reason && (
                       <button
                         onClick={handleReject}
                         className="flex-1 py-3 bg-status-error/10 text-status-error rounded-xl font-bold hover:bg-status-error hover:text-white transition-all flex items-center justify-center gap-2 border border-status-error/20"
+                        aria-label={`رفض طلب ${selectedRequest.full_name}`}
                       >
-                        <CancelIcon className="!text-[20px]" />
+                        <XOctagon className="w-[20px] h-[20px]" />
                         رفض الطلب
                       </button>
                     )}
 
-                    {/*      */}
                     <button
                       onClick={handleApprove}
-                      className="flex-1 py-3 bg-status-success text-white rounded-xl font-bold hover:bg-status-success/90 shadow-lg shadow-status-success/20 transition-all flex items-center justify-center gap-2"
+                      className="flex-1 py-3 bg-status-success text-white rounded-xl font-bold hover:bg-status-success/80 shadow-lg shadow-status-success/20 transition-all flex items-center justify-center gap-2"
+                      aria-label={`اعتماد طلب ${selectedRequest.full_name}`}
                     >
-                      <CheckCircleIcon className="!text-[20px]" />
+                      <CheckCircle className="w-[20px] h-[20px]" />
                       اعتماد وتفعيل
                     </button>
                   </>
