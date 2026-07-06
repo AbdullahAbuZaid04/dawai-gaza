@@ -4,7 +4,7 @@ function NotFoundState({ title, actionLabel = "العودة للرئيسية", o
   return (
     <div className="flex flex-col items-center justify-center py-20 px-6 text-center">
       <h2 className="text-3xl md:text-5xl font-black text-content-light mb-8 tracking-tight">
-        🚫 {title}
+        {title}
       </h2>
       <MainButton variant="contained" to="/" className="mt-4" onClick={onAction}>
         {actionLabel}

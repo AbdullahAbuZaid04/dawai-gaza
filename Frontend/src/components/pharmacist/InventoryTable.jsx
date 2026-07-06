@@ -6,11 +6,11 @@ const InventoryTable = ({ medicines, onEdit, onDelete }) => {
       <table className="w-full text-right align-middle whitespace-nowrap">
         <thead>
           <tr className="bg-ui-gray/50 border-b border-ui-border text-xs uppercase text-content-light">
-            <th className="px-6 py-4 font-black w-1/3">اسم الدواء</th>
-            <th className="px-6 py-4 font-black">السعر (₪)</th>
-            <th className="px-6 py-4 font-black">الكمية</th>
-            <th className="px-6 py-4 font-black text-center">تاريخ الصلاحية</th>
-            <th className="px-6 py-4 font-black text-center w-24">إجراء</th>
+            <th scope="col" className="px-6 py-4 font-black w-1/3">اسم الدواء</th>
+            <th scope="col" className="px-6 py-4 font-black">السعر (₪)</th>
+            <th scope="col" className="px-6 py-4 font-black">الكمية</th>
+            <th scope="col" className="px-6 py-4 font-black text-center">تاريخ الصلاحية</th>
+            <th scope="col" className="px-6 py-4 font-black text-center w-24">إجراء</th>
           </tr>
         </thead>
         <tbody className="divide-y divide-ui-border bg-ui-card text-content-main text-sm">
@@ -34,12 +34,14 @@ const InventoryTable = ({ medicines, onEdit, onDelete }) => {
                 <div className="flex gap-2 justify-center">
                   <button
                     onClick={() => onEdit(item)}
+                    aria-label={`تعديل ${item.medicine.name_ar}`}
                     className="p-2 rounded-lg text-primary hover:bg-primary/10 transition"
                   >
                     <Edit className="w-4 h-4" />
                   </button>
                   <button
                     onClick={() => onDelete(item)}
+                    aria-label={`حذف ${item.medicine.name_ar}`}
                     className="p-2 rounded-lg text-status-error hover:bg-status-error/10 transition"
                   >
                     <Trash2 className="w-4 h-4" />

@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useMemo, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 
 const AuthContext = createContext();
@@ -16,19 +16,21 @@ export function AuthProvider({ children }) {
 
   const navigate = useNavigate();
 
-  const login = (userData) => {
+  const login = useCallback((userData) => {
     setUser(userData);
     sessionStorage.setItem("dawai_user", JSON.stringify(userData));
-  };
+  }, []);
 
-  const logout = () => {
+  const logout = useCallback(() => {
     setUser(null);
     sessionStorage.removeItem("dawai_user");
     localStorage.removeItem("token");
     navigate("/", { replace: true });
-  };
+  }, [navigate]);
 
-  return <AuthContext.Provider value={{ user, login, logout }}>{children}</AuthContext.Provider>;
+  const value = useMemo(() => ({ user, login, logout }), [user, login, logout]);
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 
 export const useAuth = () => {

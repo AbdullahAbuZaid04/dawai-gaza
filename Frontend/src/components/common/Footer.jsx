@@ -38,9 +38,15 @@ function Footer() {
               بسهولة وسرعة.
             </p>
             <div className="flex gap-3">
-              {[LinkedInIcon, InstagramIcon, TwitterIcon, FacebookIcon].map((Icon, idx) => (
+              {[
+                { Icon: LinkedInIcon, label: "لينكد إن" },
+                { Icon: InstagramIcon, label: "إنستغرام" },
+                { Icon: TwitterIcon, label: "تويتر" },
+                { Icon: FacebookIcon, label: "فيسبوك" },
+              ].map(({ Icon, label }, idx) => (
                 <button
                   key={idx}
+                  aria-label={label}
                   className="w-10 h-10 bg-primary/10 text-content-white rounded-full flex items-center justify-center hover:bg-primary transition-all duration-300"
                 >
                   <Icon className="!text-[20px]" />
@@ -51,7 +57,7 @@ function Footer() {
 
           {/* 2. Quick Links */}
           <div>
-            <h3 className="text-lg font-extrabold text-content-white mb-6">روابط سريعة</h3>
+            <h2 className="text-lg font-extrabold text-content-white mb-6">روابط سريعة</h2>
             <div className="flex flex-col gap-4 text-[0.95rem]">
               {quickLinks.map((link, idx) => (
                 <Link
@@ -67,7 +73,7 @@ function Footer() {
 
           {/* 3. Services */}
           <div>
-            <h3 className="text-lg font-extrabold text-content-white mb-6">خدماتنا</h3>
+            <h2 className="text-lg font-extrabold text-content-white mb-6">خدماتنا</h2>
             <div className="flex flex-col gap-4 text-[0.95rem]">
               {servicesLinks.map((item, idx) => (
                 <span key={idx} className="text-content-light">
@@ -79,7 +85,7 @@ function Footer() {
 
           {/* 4. Contact Us */}
           <div>
-            <h3 className="text-lg font-extrabold text-content-white mb-6">تواصل معنا</h3>
+            <h2 className="text-lg font-extrabold text-content-white mb-6">تواصل معنا</h2>
             <div className="flex flex-col gap-5 text-[0.95rem]">
               {[
                 { icon: <LocationOnIcon />, text: "غزة، فلسطين" },

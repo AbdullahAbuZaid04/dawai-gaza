@@ -43,7 +43,9 @@ function ScrollToTop() {
 function MainLayout() {
   return (
     <div className="min-h-screen flex flex-col bg-ui-bg">
-      <Navbar />
+      <header>
+        <Navbar />
+      </header>
 
       {/* Dynamic Spacer for fixed Navbar */}
       <div className="h-16 md:h-20" />

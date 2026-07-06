@@ -30,6 +30,7 @@ function Home() {
           "البحث بالاسم للحصول على أدق النتائج.",
         ]}
         image={pillLuxe}
+        imageAlt="أيقونة دواء"
         imageMaxWidth={280}
         bgColor="ui-card"
       />
@@ -41,6 +42,7 @@ function Home() {
         description="دليل تفاعلي يضم مئات الصيدليات المعتمدة، مع عرض دقيق لمواقعهم على الخريطة وساعات عملهم المحدثة لحظة بلحظة ."
         features={["تحديد مواقع الصيدليات عبر GPS.", "عرض أرقام التواصل وساعات الدوام."]}
         image={medKitImg}
+        imageAlt="أيقونة حقيبة إسعافات أولية"
         imageMaxWidth={300}
         reverse={true}
       />
@@ -51,6 +53,7 @@ function Home() {
         description="نعمل بانسجام تام مع نقابة الصيادلة لضمان صحة البيانات المنشورة وحماية المواطن من التلاعب بالأسعار أو الأصناف."
         features={["ربط مباشر مع قاعدة بيانات النقابة المركزية."]}
         image={trustImg}
+        imageAlt="شارة ثقة"
         imageMaxWidth={280}
         bgColor="ui-card"
       />
