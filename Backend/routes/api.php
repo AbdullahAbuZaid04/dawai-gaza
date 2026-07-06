@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\MedicineController;
 use App\Http\Controllers\Api\PharmacyController;
 use App\Http\Controllers\Api\PromotionController;
 use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\ViolationController;
 use Illuminate\Support\Facades\Route;
 
 // ============================================================
@@ -80,8 +81,8 @@ Route::middleware(['auth:sanctum', 'throttle:100,1'])->group(function () {
         // User management (Admin dashboard)
         Route::get('/users/pharmacists',     [UserController::class, 'pharmacists']);
         Route::patch('/users/{id}/status',   [UserController::class, 'toggleStatus']);
-        Route::get('/violations', [App\Http\Controllers\Api\ViolationController::class, 'index']);
-        Route::patch('/violations/{id}/status', [App\Http\Controllers\Api\ViolationController::class, 'updateStatus']);
+        Route::get('/violations', [ViolationController::class, 'index']);
+        Route::patch('/violations/{id}/status', [ViolationController::class, 'updateStatus']);
     });
 
     // --------------------------------------------------------
@@ -94,7 +95,6 @@ Route::middleware(['auth:sanctum', 'throttle:100,1'])->group(function () {
         Route::get('/inventory/low-stock',   [InventoryController::class, 'lowStock']);
         Route::post('/pharmacies/{pharmacyId}/inventory', [InventoryController::class, 'store']);
         Route::put('/pharmacies/{pharmacyId}/inventory/{inventoryId}', [InventoryController::class, 'update']);
-        Route::get('/pharmacies/{pharmacyId}/promotions', [PromotionController::class, 'pharmacyPromotions']);
         Route::post('/promotions',           [PromotionController::class, 'store']);
         Route::put('/promotions/{id}',       [PromotionController::class, 'update']);
         Route::delete('/promotions/{id}',    [PromotionController::class, 'destroy']);

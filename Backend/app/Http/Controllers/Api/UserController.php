@@ -46,13 +46,18 @@ class UserController extends Controller
             return response()->json(['message' => 'User not found.'], 404);
         }
 
-        $validated = $request->validate([
-            'is_active' => $request->is_active,
-            'status' =>$request->status,
-            'reject_reason' => $request->is_active ? null : $request->reject_reason,
+        $rules = [
             'full_name' => 'sometimes|string|max:150',
             'phone'     => 'sometimes|string|max:30',
-        ]);
+        ];
+
+        if ($authUser->role === 'Admin') {
+            $rules['is_active']      = 'sometimes|boolean';
+            $rules['status']         = 'sometimes|string|in:pending,approved,rejected';
+            $rules['reject_reason']  = 'nullable|string';
+        }
+
+        $validated = $request->validate($rules);
 
         $target->update($validated);
 
@@ -103,7 +108,7 @@ public function toggleStatus(Request $request, $id)
 
     $validated = $request->validate([
         'is_active' => 'required|boolean',
-        'status' => 'required|string',
+        'status' => 'required|string|in:pending,approved,rejected',
         'reject_reason' => 'nullable|string',
     ]);
 

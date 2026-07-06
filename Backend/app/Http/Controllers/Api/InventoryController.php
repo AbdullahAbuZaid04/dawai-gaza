@@ -98,8 +98,6 @@ class InventoryController extends Controller
 {
     $authUser = $request->user();
 
-    $pharmacyId = $pharmacyId ?? $request->input('pharmacy_id');
-
     $validated = $request->validate([
         'pharmacy_id' => 'required|integer|exists:pharmacies,pharmacy_id',
         'medicine_id' => 'required|integer|exists:medicines,medicine_id', 
@@ -108,34 +106,32 @@ class InventoryController extends Controller
         'expiry_date' => 'nullable|date|after:today',
     ]);
 
-        
-
-        // Pharmacist may only add to their own pharmacy
-        if ($authUser->role === 'Pharmacist' && $authUser->pharmacy_id !== (int) $pharmacyId) {
-            return response()->json(['message' => 'Pharmacists may only manage their own pharmacy inventory.'], 403);
-        }
-
-        // Enforce unique (pharmacy_id, medicine_id) constraint with a user-friendly error
-        $exists = Inventory::where('pharmacy_id', $validated['pharmacy_id'])
-            ->where('medicine_id', $validated['medicine_id'])
-            ->exists();
-
-        if ($exists) {
-            return response()->json([
-                'message' => 'This medicine already exists in this pharmacy\'s inventory. Use PUT /api/inventory/{id} to update it.',
-            ], 422);
-        }
-
-        // Derive stock_status from quantity if not provided
-        if (!isset($validated['stock_status'])) {
-            $qty = $validated['quantity'];
-            $validated['stock_status'] = $qty === 0 ? 'Out of Stock' : ($qty <= 10 ? 'Low Stock' : 'In Stock');
-        }
-
-        $inventory = Inventory::create($validated);
-
-        return response()->json($inventory->load('medicine', 'pharmacy'), 201);
+    // Pharmacist may only add to their own pharmacy
+    if ($authUser->role === 'Pharmacist' && $authUser->pharmacy_id !== (int) $validated['pharmacy_id']) {
+        return response()->json(['message' => 'Pharmacists may only manage their own pharmacy inventory.'], 403);
     }
+
+    // Enforce unique (pharmacy_id, medicine_id) constraint with a user-friendly error
+    $exists = Inventory::where('pharmacy_id', $validated['pharmacy_id'])
+        ->where('medicine_id', $validated['medicine_id'])
+        ->exists();
+
+    if ($exists) {
+        return response()->json([
+            'message' => 'This medicine already exists in this pharmacy\'s inventory. Use PUT /api/inventory/{id} to update it.',
+        ], 422);
+    }
+
+    // Derive stock_status from quantity if not provided
+    if (!isset($validated['stock_status'])) {
+        $qty = $validated['quantity'];
+        $validated['stock_status'] = $qty === 0 ? 'Out of Stock' : ($qty <= 10 ? 'Low Stock' : 'In Stock');
+    }
+
+    $inventory = Inventory::create($validated);
+
+    return response()->json($inventory->load('medicine', 'pharmacy'), 201);
+}
 
     /**
      * PUT /api/inventory/{id}
@@ -158,7 +154,7 @@ class InventoryController extends Controller
         $validated = $request->validate([
             'quantity'     => 'sometimes|integer|min:0',
             'price_ils'    => 'sometimes|numeric|min:0',
-            'expiry_date'  => 'sometimes|nullable|date',
+            'expiry_date'  => 'sometimes|nullable|date|after:today',
             'stock_status' => 'sometimes|in:In Stock,Low Stock,Out of Stock',
         ]);
 

@@ -14,7 +14,7 @@ class PharmacyController extends Controller
      */
   public function index(Request $request)
 {
-    $query = Pharmacy::with(['governorate', 'inventory.medicine', 'users']);
+    $query = Pharmacy::with(['governorate', 'inventory.medicine', 'users' => fn($q) => $q->orderBy('user_id')->limit(1)]);
 
     if ($request->filled('gov_id')) {
         $query->where('governorate_id', $request->gov_id);
@@ -37,6 +37,7 @@ public function registerRequest(Request $request)
 {
     $request->validate([
         'pharmacy_name_ar' => 'required|string|max:200',
+        'pharmacy_name_en' => 'nullable|string|max:200',
         'email'            => 'required|email|unique:users,email',
         'phone'            => 'required|string|max:30',
         'address_note'     => 'nullable|string|max:255',
@@ -55,7 +56,7 @@ public function registerRequest(Request $request)
     return \Illuminate\Support\Facades\DB::transaction(function () use ($request, $coords) {
         $pharmacy = Pharmacy::create([
             'pharmacy_name_ar' => $request->pharmacy_name_ar,
-            'pharmacy_name_en' => $request->pharmacy_name_ar ,
+            'pharmacy_name_en' => $request->pharmacy_name_en ?: $request->pharmacy_name_ar,
             'governorate_id'   => $request->governorate_id,
             'area_name'        => 'لم يحدد بعد',
             'address_note'     => $request->address_note,
@@ -90,7 +91,7 @@ public function registerRequest(Request $request)
      */
     public function show($id)
     {
-        $p = Pharmacy::with(['governorate', 'inventory.medicine', 'promotions','users'])->find($id);
+        $p = Pharmacy::with(['governorate', 'inventory.medicine', 'promotions', 'users' => fn($q) => $q->orderBy('user_id')->limit(1)])->find($id);
 
         if (!$p) {
             return response()->json(['message' => 'Pharmacy not found'], 404);

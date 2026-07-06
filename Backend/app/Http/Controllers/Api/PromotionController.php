@@ -148,16 +148,23 @@ public function store(Request $request)
 
 public function update(Request $request, $id)
 {
+    $authUser = $request->user();
     $promotion = Promotion::find($id);
+
     if (!$promotion) return response()->json(['message' => 'Promotion not found.'], 404);
 
+    if ($authUser->role === 'Pharmacist' && $promotion->pharmacy_id !== $authUser->pharmacy_id) {
+        return response()->json(['message' => 'Unauthorized.'], 403);
+    }
+
     $validated = $request->validate([
-        'title'       => 'required|string|max:200',
+        'title'       => 'sometimes|string|max:200',
         'description' => 'nullable|string',
-        'priority'    => 'required|in:normal,urgent,info',
+        'priority'    => 'sometimes|in:normal,urgent,info',
+        'is_active'   => 'sometimes|boolean',
     ]);
 
     $promotion->update($validated);
-    return response()->json($this->formatPromotion($promotion));
+    return response()->json($this->formatPromotion($promotion->load(['pharmacy', 'healthCenter'])));
 }
 }

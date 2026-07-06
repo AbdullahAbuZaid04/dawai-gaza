@@ -25,7 +25,7 @@ public function up()
     public function down(): void
     {
         Schema::table('pharmacies', function (Blueprint $table) {
-            //
+            $table->dropColumn(['license_number', 'open_time', 'close_time', 'google_maps_link']);
         });
     }
 };
