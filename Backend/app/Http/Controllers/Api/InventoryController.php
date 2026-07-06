@@ -285,7 +285,9 @@ public function show($pharmacyId, $medicineId)
     }
 
   return response()->json([
-        'pharmacy' => $item->pharmacy,
+        'pharmacy' => array_merge($item->pharmacy->toArray(), [
+            'id' => $item->pharmacy->pharmacy_id,
+        ]),
         'medicine' => [
             'name_ar' => $item->medicine->name_ar,
             'dosage_form' => $item->medicine->dosage_form,
