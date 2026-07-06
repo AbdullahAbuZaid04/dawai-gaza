@@ -24,11 +24,11 @@ class HubSeeder extends Seeder
 
         // Pharmacies
         DB::table('pharmacies')->insert([
-            ['pharmacy_id' => 1, 'governorate_id' => 2, 'pharmacy_name_en' => 'Al-Shifa Pharmacy Point', 'pharmacy_name_ar' => 'نقطة صيدلية الشفاء', 'area_name' => 'Gaza City', 'address_note' => 'Near Al-Shifa medical area', 'latitude' => 31.5223, 'longitude' => 34.4431],
-            ['pharmacy_id' => 2, 'governorate_id' => 4, 'pharmacy_name_en' => 'Nasser Medical Pharmacy', 'pharmacy_name_ar' => 'صيدلية مجمع ناصر الطبي', 'area_name' => 'Khan Younis', 'address_note' => 'Inside Nasser medical complex', 'latitude' => 31.3447, 'longitude' => 34.3033],
-            ['pharmacy_id' => 3, 'governorate_id' => 3, 'pharmacy_name_en' => 'Al-Aqsa Pharmacy Point', 'pharmacy_name_ar' => 'نقطة صيدلية شهداء الأقصى', 'area_name' => 'Deir al-Balah', 'address_note' => 'Near Al-Aqsa hospital gate', 'latitude' => 31.4180, 'longitude' => 34.3500],
-            ['pharmacy_id' => 4, 'governorate_id' => 1, 'pharmacy_name_en' => 'Al-Awda Pharmacy Jabalia', 'pharmacy_name_ar' => 'صيدلية العودة جباليا', 'area_name' => 'Jabalia', 'address_note' => 'Near Jabalia area service point', 'latitude' => 31.5468, 'longitude' => 34.4951],
-            ['pharmacy_id' => 5, 'governorate_id' => 5, 'pharmacy_name_en' => 'ICRC Field Hospital Pharmacy Point', 'pharmacy_name_ar' => 'نقطة صيدلية المستشفى الميداني للجنة الدولية للصليب الأحمر', 'area_name' => 'Rafah', 'address_note' => 'Rafah limited health services area', 'latitude' => 31.2969, 'longitude' => 34.2436],
+            ['pharmacy_id' => 1, 'governorate_id' => 2, 'pharmacy_name_en' => 'Al-Shifa Pharmacy Point', 'pharmacy_name_ar' => 'نقطة صيدلية الشفاء', 'license_number' => 'MOH-1001', 'open_time' => '08:00', 'close_time' => '22:00', 'area_name' => 'Gaza City', 'address_note' => 'Near Al-Shifa medical area', 'latitude' => 31.5223, 'longitude' => 34.4431, 'google_maps_link' => 'https://goo.gl/maps/example1'],
+            ['pharmacy_id' => 2, 'governorate_id' => 4, 'pharmacy_name_en' => 'Nasser Medical Pharmacy', 'pharmacy_name_ar' => 'صيدلية مجمع ناصر الطبي', 'license_number' => 'MOH-2001', 'open_time' => '08:00', 'close_time' => '22:00', 'area_name' => 'Khan Younis', 'address_note' => 'Inside Nasser medical complex', 'latitude' => 31.3447, 'longitude' => 34.3033, 'google_maps_link' => 'https://goo.gl/maps/example2'],
+            ['pharmacy_id' => 3, 'governorate_id' => 3, 'pharmacy_name_en' => 'Al-Aqsa Pharmacy Point', 'pharmacy_name_ar' => 'نقطة صيدلية شهداء الأقصى', 'license_number' => 'MOH-3001', 'open_time' => '08:00', 'close_time' => '23:00', 'area_name' => 'Deir al-Balah', 'address_note' => 'Near Al-Aqsa hospital gate', 'latitude' => 31.4180, 'longitude' => 34.3500, 'google_maps_link' => 'https://goo.gl/maps/example3'],
+            ['pharmacy_id' => 4, 'governorate_id' => 1, 'pharmacy_name_en' => 'Al-Awda Pharmacy Jabalia', 'pharmacy_name_ar' => 'صيدلية العودة جباليا', 'license_number' => 'MOH-4001', 'open_time' => '09:00', 'close_time' => '21:00', 'area_name' => 'Jabalia', 'address_note' => 'Near Jabalia area service point', 'latitude' => 31.5468, 'longitude' => 34.4951, 'google_maps_link' => 'https://goo.gl/maps/example4'],
+            ['pharmacy_id' => 5, 'governorate_id' => 5, 'pharmacy_name_en' => 'ICRC Field Hospital Pharmacy Point', 'pharmacy_name_ar' => 'نقطة صيدلية المستشفى الميداني للجنة الدولية للصليب الأحمر', 'license_number' => 'MOH-5001', 'open_time' => '00:00', 'close_time' => '23:59', 'area_name' => 'Rafah', 'address_note' => 'Rafah limited health services area', 'latitude' => 31.2969, 'longitude' => 34.2436, 'google_maps_link' => 'https://goo.gl/maps/example5'],
         ]);
 
         // Health Centers
@@ -38,22 +38,58 @@ class HubSeeder extends Seeder
             ['center_id' => 3, 'governorate_id' => 3, 'center_name_en' => 'Pharmacists Syndicate Health Unit - Deir al-Balah', 'center_name_ar' => 'الوحدة الصحية لنقابة الصيادلة - دير البلح', 'area_name' => 'Deir al-Balah', 'address_note' => 'Syndicate services point in Deir al-Balah', 'phone' => '+970599100003', 'image_url' => '', 'description' => 'Seed record for education, counseling, and medicine-use awareness.', 'is_active' => 1],
         ]);
 
-        // Users
+        // Users — only Admin + one Pharmacist per pharmacy
         DB::table('users')->insert([
             ['user_id' => 1, 'pharmacy_id' => NULL, 'full_name' => 'System Admin', 'email' => 'admin@dawai.ps', 'password' => Hash::make('admin123'), 'role' => 'Admin', 'phone' => '+970590000001', 'is_active' => 1],
             ['user_id' => 2, 'pharmacy_id' => 2, 'full_name' => 'Ahmed Khaled', 'email' => 'ahmed.khaled@dawai.ps', 'password' => Hash::make('pharm123'), 'role' => 'Pharmacist', 'phone' => '+970590000002', 'is_active' => 1],
             ['user_id' => 3, 'pharmacy_id' => 3, 'full_name' => 'Mona Sami', 'email' => 'mona.sami@dawai.ps', 'password' => Hash::make('pharm123'), 'role' => 'Pharmacist', 'phone' => '+970590000003', 'is_active' => 1],
-            ['user_id' => 4, 'pharmacy_id' => NULL, 'full_name' => 'Yousef Adel', 'email' => 'yousef.adel@mail.ps', 'password' => Hash::make('user123'), 'role' => 'Citizen', 'phone' => '+970590000004', 'is_active' => 1],
-            ['user_id' => 5, 'pharmacy_id' => NULL, 'full_name' => 'Sara Nabil', 'email' => 'sara.nabil@mail.ps', 'password' => Hash::make('user123'), 'role' => 'Citizen', 'phone' => '+970590000005', 'is_active' => 1],
+            ['user_id' => 4, 'pharmacy_id' => 1, 'full_name' => 'Hassan Al-Shifa', 'email' => 'hassan.shifa@dawai.ps', 'password' => Hash::make('pharm123'), 'role' => 'Pharmacist', 'phone' => '+970590000006', 'is_active' => 1],
+            ['user_id' => 5, 'pharmacy_id' => 4, 'full_name' => 'Laila Al-Awda', 'email' => 'laila.awda@dawai.ps', 'password' => Hash::make('pharm123'), 'role' => 'Pharmacist', 'phone' => '+970590000007', 'is_active' => 1],
+            ['user_id' => 6, 'pharmacy_id' => 5, 'full_name' => 'Omar ICRC', 'email' => 'omar.icrc@dawai.ps', 'password' => Hash::make('pharm123'), 'role' => 'Pharmacist', 'phone' => '+970590000008', 'is_active' => 1],
         ]);
 
         // Medicines
         DB::table('medicines')->insert([
-            ['medicine_id' => 1, 'name_en' => 'Paracetamol', 'name_ar' => 'باراسيتامول', 'dosage_form' => 'Tablet', 'strength' => '500 mg', 'leaflet_uses' => 'Used for fever and mild to moderate pain.', 'leaflet_dosage' => 'Adults: 1 tablet every 6 to 8 hours when needed.', 'leaflet_side_effects' => 'May cause nausea or rash in some cases.', 'leaflet_contraindications' => 'Use carefully in liver disease.', 'is_active' => 1],
-            ['medicine_id' => 2, 'name_en' => 'Amoxicillin', 'name_ar' => 'أموكسيسيلين', 'dosage_form' => 'Capsule', 'strength' => '500 mg', 'leaflet_uses' => 'Used for bacterial infections when prescribed.', 'leaflet_dosage' => 'Usually taken every 8 hours as prescribed by a doctor.', 'leaflet_side_effects' => 'May cause stomach upset, diarrhea, or allergy.', 'leaflet_contraindications' => 'Avoid if the patient has penicillin allergy.', 'is_active' => 1],
-            ['medicine_id' => 3, 'name_en' => 'Salbutamol', 'name_ar' => 'سالبوتامول', 'dosage_form' => 'Inhaler', 'strength' => '100 mcg', 'leaflet_uses' => 'Used to relieve bronchospasm and wheezing.', 'leaflet_dosage' => 'Use 1 to 2 puffs when needed as directed.', 'leaflet_side_effects' => 'May cause tremor or fast heartbeat.', 'leaflet_contraindications' => 'Use carefully in severe heart conditions.', 'is_active' => 1],
-            ['medicine_id' => 4, 'name_en' => 'Metformin', 'name_ar' => 'ميتفورمين', 'dosage_form' => 'Tablet', 'strength' => '500 mg', 'leaflet_uses' => 'Used to help control blood sugar in type 2 diabetes.', 'leaflet_dosage' => 'Usually taken with food once or twice daily.', 'leaflet_side_effects' => 'May cause stomach upset or diarrhea.', 'leaflet_contraindications' => 'Avoid in severe kidney problems.', 'is_active' => 1],
-            ['medicine_id' => 5, 'name_en' => 'Human Insulin Regular', 'name_ar' => 'أنسولين بشري منتظم', 'dosage_form' => 'Injection', 'strength' => '100 IU/ml', 'leaflet_uses' => 'Used to control blood sugar.', 'leaflet_dosage' => 'Dose depends on the treatment plan from the doctor.', 'leaflet_side_effects' => 'May cause low blood sugar.', 'leaflet_contraindications' => 'Use carefully and monitor glucose regularly.', 'is_active' => 1],
+            [
+                'medicine_id' => 1, 'name_en' => 'Paracetamol', 'name_ar' => 'باراسيتامول',
+                'dosage_form' => 'أقراص', 'strength' => '500 مجم',
+                'leaflet_uses' => 'يستخدم لخفض الحرارة وتخفيف الآلام الخفيفة إلى المتوسطة.',
+                'leaflet_dosage' => 'البالغين: قرص واحد كل 6 إلى 8 ساعات عند الحاجة. لا تتجاوز 4 أقراص في اليوم.',
+                'leaflet_side_effects' => 'قد يسبب غثيان أو طفح جلدي في بعض الحالات.',
+                'leaflet_contraindications' => 'يستخدم بحذر في حالات أمراض الكبد. يمنع تناوله مع الكحول.', 'is_active' => 1,
+            ],
+            [
+                'medicine_id' => 2, 'name_en' => 'Amoxicillin', 'name_ar' => 'أموكسيسيلين',
+                'dosage_form' => 'كبسولات', 'strength' => '500 مجم',
+                'leaflet_uses' => 'مضاد حيوي يستخدم لعلاج الالتهابات البكتيرية حسب وصف الطبيب.',
+                'leaflet_dosage' => 'عادةً يؤخذ كل 8 ساعات حسب توجيهات الطبيب. يجب إكمال المدة الموصوفة بالكامل.',
+                'leaflet_side_effects' => 'قد يسبب اضطراب في المعدة، إسهال، أو حساسية.',
+                'leaflet_contraindications' => 'يمنع استخدامه إذا كان المريض يعاني من حساسية البنسلين.', 'is_active' => 1,
+            ],
+            [
+                'medicine_id' => 3, 'name_en' => 'Salbutamol', 'name_ar' => 'سالبوتامول',
+                'dosage_form' => 'بخاخ', 'strength' => '100 مكغم',
+                'leaflet_uses' => 'يستخدم لتوسيع الشعب الهوائية وتخفيف الأزيز وضيق التنفس.',
+                'leaflet_dosage' => 'استخدم 1 إلى 2 بخة عند الحاجة حسب توجيهات الطبيب.',
+                'leaflet_side_effects' => 'قد يسبب رعشة أو تسارع في ضربات القلب.',
+                'leaflet_contraindications' => 'يستخدم بحذر في حالات أمراض القلب الشديدة.', 'is_active' => 1,
+            ],
+            [
+                'medicine_id' => 4, 'name_en' => 'Metformin', 'name_ar' => 'ميتفورمين',
+                'dosage_form' => 'أقراص', 'strength' => '500 مجم',
+                'leaflet_uses' => 'يستخدم للمساعدة في التحكم بمستوى السكر في الدم لمرضى السكري من النوع الثاني.',
+                'leaflet_dosage' => 'عادةً يؤخذ مع الطعام مرة أو مرتين يومياً حسب توجيهات الطبيب.',
+                'leaflet_side_effects' => 'قد يسبب اضطراب في المعدة أو إسهال في بداية العلاج.',
+                'leaflet_contraindications' => 'يمنع استخدامه في حالات الفشل الكلوي الحاد.', 'is_active' => 1,
+            ],
+            [
+                'medicine_id' => 5, 'name_en' => 'Human Insulin Regular', 'name_ar' => 'أنسولين بشري منتظم',
+                'dosage_form' => 'حقن', 'strength' => '100 وحدة/مل',
+                'leaflet_uses' => 'يستخدم للتحكم في مستويات سكر الدم لمرضى السكري.',
+                'leaflet_dosage' => 'تعتمد الجرعة على خطة العلاج المحددة من قبل الطبيب. يجب قياس السكر بانتظام.',
+                'leaflet_side_effects' => 'قد يسبب انخفاض في مستوى سكر الدم (نقص سكر الدم).',
+                'leaflet_contraindications' => 'يستخدم بحذر مع مراقبة منتظمة لمستوى الجلوكوز.', 'is_active' => 1,
+            ],
         ]);
 
         // Inventory

@@ -36,9 +36,12 @@ A centralized digital platform bridging citizens, pharmacies, and the Pharmacist
 
 | Role        | Email                          | Password    |
 |-------------|--------------------------------|-------------|
-| Syndicate   | admin@dawai.ps                 | admin123    |
+| Admin       | admin@dawai.ps                 | admin123    |
 | Pharmacist  | ahmed.khaled@dawai.ps          | pharm123    |
-| Citizen     | yousef.adel@mail.ps            | user123     |
+| Pharmacist  | mona.sami@dawai.ps             | pharm123    |
+| Pharmacist  | hassan.shifa@dawai.ps          | pharm123    |
+| Pharmacist  | laila.awda@dawai.ps            | pharm123    |
+| Pharmacist  | omar.icrc@dawai.ps             | pharm123    |
 
 ## Local Setup
 

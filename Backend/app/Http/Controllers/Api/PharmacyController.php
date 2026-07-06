@@ -41,11 +41,11 @@ public function registerRequest(Request $request)
         'phone'            => 'required|string|max:30',
         'address_note'     => 'nullable|string|max:255',
         'governorate_id'   => 'required|integer|exists:governorates,governorate_id',
-        'license_number'   => 'required|string|max:100', //
-        'password'         => 'required|string|min:6',   //
-        'open_time'        => 'required',
-        'close_time'       => 'required',
-
+        'license_number'   => 'required|string|max:100',
+        'password'         => 'required|string|min:6',
+        'open_time'        => 'required|date_format:H:i',
+        'close_time'       => 'required|date_format:H:i',
+        'google_maps_link' => 'nullable|url|max:500',
     ]);
 
     return \Illuminate\Support\Facades\DB::transaction(function () use ($request) {
@@ -73,7 +73,10 @@ public function registerRequest(Request $request)
             'status'      => 'pending',
         ]);
 
-        return response()->json(['message' => 'تم إرسال طلبك للمراجعة'], 201);
+        return response()->json([
+            'message' => 'تم إرسال طلبك للمراجعة',
+            'pharmacy' => $this->formatPharmacy($pharmacy->load(['governorate', 'users'])),
+        ], 201);
     });
 }
     /**
@@ -120,7 +123,7 @@ public function registerRequest(Request $request)
 
         $pharmacy = Pharmacy::create($validated);
 
-        return response()->json($this->formatPharmacy($pharmacy->load('governorate')), 201);
+        return response()->json($this->formatPharmacy($pharmacy->load(['governorate', 'users'])), 201);
     }
 
     // -----------------------------------------------------------------------
@@ -129,19 +132,18 @@ public function registerRequest(Request $request)
 
     private function formatPharmacy(Pharmacy $p): array
     {
-     $user = \App\Models\User::where('pharmacy_id', $p->pharmacy_id)->first();
+        $user = $p->users->first();
         return [
             'id'           => $p->pharmacy_id,
             'name'         => $p->pharmacy_name_ar,
             'name_en'      => $p->pharmacy_name_en,
             'open_time'    => $p->open_time,
-        'close_time'   => $p->close_time,
-        'is_active'    => $user ? (bool) $user->is_active : false,
-        'reject_reason'=> $user ? $user->reject_reason : null,
-        'status'       => $user ? $user->status : 'pending', //
-
-        'phone'        => $user ? $user->phone : null,
-         'email'        => $user ? $user->email : null,
+            'close_time'   => $p->close_time,
+            'is_active'    => $user ? (bool) $user->is_active : false,
+            'reject_reason'=> $user ? $user->reject_reason : null,
+            'status'       => $user ? $user->status : 'pending',
+            'phone'        => $user ? $user->phone : null,
+            'email'        => $user ? $user->email : null,
             'location'     => $p->governorate->name_ar . ' - ' . $p->area_name,
             'lat'          => (float) $p->latitude,
             'lng'          => (float) $p->longitude,

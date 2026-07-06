@@ -15,6 +15,15 @@ import MapIcon from "@mui/icons-material/Map";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
+import LocationCityIcon from "@mui/icons-material/LocationCity";
+
+const GOVERNORATES = [
+  { id: 1, name: "شمال غزة" },
+  { id: 2, name: "غزة" },
+  { id: 3, name: "دير البلح" },
+  { id: 4, name: "خانيونس" },
+  { id: 5, name: "رفح" },
+];
 
 const Register = () => {
   const navigate = useNavigate();
@@ -25,6 +34,7 @@ const Register = () => {
     phone: "",
     email: "",
     address: "",
+    governorateId: "",
     startTime: "08:00",
     endTime: "22:00",
     googleMapsLink: "",
@@ -40,10 +50,12 @@ const Register = () => {
     else if (!/^\d{10}$|^\d{3}-\d{4}-\d{3}$/.test(formData.phone))
       tempErrors.phone = "رقم الهاتف غير صحيح";
     if (!formData.email) tempErrors.email = "البريد الإلكتروني مطلوب";
-    else if (!/\S+@\S+\.\S+/.test(formData.email)) tempErrors.email = "البريد الإلكتروني غير صحيح";
+    else if (!/\S+@\S+\.\S+/.test(formData.email))
+      tempErrors.email = "البريد الإلكتروني غير صحيح";
     if (!formData.address) tempErrors.address = "العنوان مطلوب";
     if (!formData.startTime) tempErrors.startTime = "وقت البدء مطلوب";
     if (!formData.endTime) tempErrors.endTime = "وقت النهاية مطلوب";
+    if (!formData.governorateId) tempErrors.governorateId = "المحافظة مطلوبة";
 
     setErrors(tempErrors);
     return Object.keys(tempErrors).length === 0;
@@ -64,7 +76,7 @@ const Register = () => {
           email: formData.email,
           phone: formData.phone,
           address_note: formData.address,
-          governorate_id: 1,
+          governorate_id: formData.governorateId,
           license_number: formData.licenseNumber,
           password: formData.password,
           open_time: formData.startTime,
@@ -73,8 +85,17 @@ const Register = () => {
         });
         setSubmitted(true);
       } catch (err) {
-        console.error(err);
-        setErrors({ ...errors, form: "حدث خطأ في التسجيل. يرجى المحاولة لاحقاً." });
+        const serverMsg = err?.response?.data?.message;
+        const firstErr = err?.response?.data?.errors
+          ? Object.values(err.response.data.errors)[0]?.[0]
+          : null;
+        setErrors({
+          ...errors,
+          form:
+            firstErr ||
+            serverMsg ||
+            "حدث خطأ في التسجيل. يرجى المحاولة لاحقاً.",
+        });
       }
     }
   };
@@ -98,8 +119,10 @@ const Register = () => {
           </h2>
           <div className="bg-status-success/5 text-status-success p-6 rounded-xl mb-8 font-bold border border-status-success/10 leading-relaxed text-sm">
             حسابك الآن{" "}
-            <span className="underline decoration-wavy underline-offset-4">قيد المراجعة</span>.
-            سنقوم بإشعارك فور تفعيل الحساب من قبل النقابة.
+            <span className="underline decoration-wavy underline-offset-4">
+              قيد المراجعة
+            </span>
+            . سنقوم بإشعارك فور تفعيل الحساب من قبل النقابة.
           </div>
           <button
             onClick={() => navigate("/login")}
@@ -113,7 +136,10 @@ const Register = () => {
   }
 
   return (
-    <div className="min-h-screen w-full flex flex-col bg-ui-bg overflow-hidden" dir="rtl">
+    <div
+      className="min-h-screen w-full flex flex-col bg-ui-bg overflow-hidden"
+      dir="rtl"
+    >
       <div className="flex-1 flex flex-col items-center justify-center p-4 md:p-6 my-8">
         {/* Top Link */}
         <div className="mb-6 w-full max-w-5xl text-right">
@@ -162,14 +188,52 @@ const Register = () => {
                 />
 
                 <InputField
-                  label="رقم الترخيص"
-                  name="licenseNumber"
-                  value={formData.licenseNumber}
+                  label="بداية العمل"
+                  name="startTime"
+                  type="time"
+                  value={formData.startTime}
                   onChange={handleChange}
-                  placeholder="MOH-123456"
-                  icon={<BadgeIcon />}
-                  error={errors.licenseNumber}
+                  icon={<AccessTimeIcon />}
+                  error={errors.startTime}
                 />
+
+                <div className="space-y-2 text-right">
+                  <label
+                    htmlFor="register-governorateId"
+                    className="block text-xs font-black text-content-light mr-2 uppercase tracking-wide"
+                  >
+                    المحافظة
+                  </label>
+                  <div className="relative group">
+                    <LocationCityIcon className="absolute right-4 top-1/2 -translate-y-1/2 !text-[20px] text-primary pointer-events-none" />
+                    <select
+                      id="register-governorateId"
+                      name="governorateId"
+                      value={formData.governorateId}
+                      onChange={handleChange}
+                      className={`w-full pr-12 pl-4 py-3.5 rounded-xl bg-ui-bg/25 border-2 border-ui-border outline-none font-bold text-content-main transition-all appearance-none cursor-pointer ${
+                        errors.governorateId
+                          ? "border-status-error"
+                          : "border-transparent focus:border-primary"
+                      }`}
+                    >
+                      <option value="">-- اختر المحافظة --</option>
+                      {GOVERNORATES.map((g) => (
+                        <option key={g.id} value={g.id}>
+                          {g.name}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  {errors.governorateId && (
+                    <p
+                      role="alert"
+                      className="text-status-error text-xs font-bold mr-2 mt-1"
+                    >
+                      {errors.governorateId}
+                    </p>
+                  )}
+                </div>
 
                 <InputField
                   label="البريد الإلكتروني"
@@ -195,26 +259,25 @@ const Register = () => {
 
               {/* Column 2: الموقع والوقت */}
               <div className="space-y-6">
-                <div className="grid grid-cols-2 gap-4">
-                  <InputField
-                    label="بداية العمل"
-                    name="startTime"
-                    type="time"
-                    value={formData.startTime}
-                    onChange={handleChange}
-                    icon={<AccessTimeIcon />}
-                    error={errors.startTime}
-                  />
-                  <InputField
-                    label="نهاية العمل"
-                    name="endTime"
-                    type="time"
-                    value={formData.endTime}
-                    onChange={handleChange}
-                    icon={<AccessTimeIcon />}
-                    error={errors.endTime}
-                  />
-                </div>
+                <InputField
+                  label="رقم الترخيص"
+                  name="licenseNumber"
+                  value={formData.licenseNumber}
+                  onChange={handleChange}
+                  placeholder="MOH-123456"
+                  icon={<BadgeIcon />}
+                  error={errors.licenseNumber}
+                />
+
+                <InputField
+                  label="نهاية العمل"
+                  name="endTime"
+                  type="time"
+                  value={formData.endTime}
+                  onChange={handleChange}
+                  icon={<AccessTimeIcon />}
+                  error={errors.endTime}
+                />
 
                 <InputField
                   label="العنوان بالتفصيل"
@@ -247,7 +310,10 @@ const Register = () => {
             </div>
 
             {errors.form && (
-              <div role="alert" className="mt-4 p-4 bg-status-error/10 text-status-error rounded-xl text-sm font-bold border border-status-error/20 text-center">
+              <div
+                role="alert"
+                className="mt-4 p-4 bg-status-error/10 text-status-error rounded-xl text-sm font-bold border border-status-error/20 text-center"
+              >
                 {errors.form}
               </div>
             )}
@@ -268,11 +334,23 @@ const Register = () => {
 };
 
 // --- Reusable Input Field Component (Updated Style) ---
-const InputField = ({ label, name, value, onChange, placeholder, type = "text", icon, error }) => {
+const InputField = ({
+  label,
+  name,
+  value,
+  onChange,
+  placeholder,
+  type = "text",
+  icon,
+  error,
+}) => {
   const inputId = `register-${name}`;
   return (
     <div className="space-y-2 text-right">
-      <label htmlFor={inputId} className="block text-xs font-black text-content-light mr-2 uppercase tracking-wide">
+      <label
+        htmlFor={inputId}
+        className="block text-xs font-black text-content-light mr-2 uppercase tracking-wide"
+      >
         {label}
       </label>
       <div className="relative group">
@@ -289,11 +367,20 @@ const InputField = ({ label, name, value, onChange, placeholder, type = "text", 
           onChange={onChange}
           placeholder={placeholder}
           className={`w-full pr-12 pl-4 py-3.5 rounded-xl bg-ui-bg/25 border-2 border-ui-border outline-none font-bold text-content-main transition-all ${
-            error ? "border-status-error" : "border-transparent focus:border-primary "
+            error
+              ? "border-status-error"
+              : "border-transparent focus:border-primary "
           }`}
         />
       </div>
-      {error && <p role="alert" className="text-status-error text-xs font-bold mr-2 mt-1">{error}</p>}
+      {error && (
+        <p
+          role="alert"
+          className="text-status-error text-xs font-bold mr-2 mt-1"
+        >
+          {error}
+        </p>
+      )}
     </div>
   );
 };
