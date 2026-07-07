@@ -94,7 +94,7 @@ public function registerRequest(Request $request)
         $p = Pharmacy::with(['governorate', 'inventory.medicine', 'promotions', 'users' => fn($q) => $q->orderBy('user_id')->limit(1)])->find($id);
 
         if (!$p) {
-            return response()->json(['message' => 'Pharmacy not found'], 404);
+            return response()->json(['message' => __('messages.pharmacy_not_found')], 404);
         }
 
         $data = $this->formatPharmacy($p);

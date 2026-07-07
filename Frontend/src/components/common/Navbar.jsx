@@ -98,7 +98,7 @@ function Navbar() {
             {user && (
               <div className="flex flex-col leading-tight md:hidden">
                 <span className="text-xs font-bold text-content-light">
-                  مرحبا {user.role}
+                  مرحبا {user.full_name}
                 </span>
                 <button
                   onClick={logout}

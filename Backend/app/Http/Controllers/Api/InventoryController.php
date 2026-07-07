@@ -60,7 +60,7 @@ class InventoryController extends Controller
         $pharmacy = Pharmacy::find($pharmacyId);
 
         if (!$pharmacy) {
-            return response()->json(['message' => 'Pharmacy not found.'], 404);
+            return response()->json(['message' => __('messages.pharmacy_not_found')], 404);
         }
 
         $inventory = Inventory::with('medicine')
@@ -106,9 +106,8 @@ class InventoryController extends Controller
         'expiry_date' => 'nullable|date|after:today',
     ]);
 
-    // Pharmacist may only add to their own pharmacy
     if ($authUser->role === 'Pharmacist' && $authUser->pharmacy_id !== (int) $validated['pharmacy_id']) {
-        return response()->json(['message' => 'Pharmacists may only manage their own pharmacy inventory.'], 403);
+        return response()->json(['message' => __('messages.inventory_unauthorized')], 403);
     }
 
     // Enforce unique (pharmacy_id, medicine_id) constraint with a user-friendly error
@@ -118,7 +117,7 @@ class InventoryController extends Controller
 
     if ($exists) {
         return response()->json([
-            'message' => 'This medicine already exists in this pharmacy\'s inventory. Use PUT /api/inventory/{id} to update it.',
+            'message' => __('messages.inventory_duplicate'),
         ], 422);
     }
 
@@ -143,12 +142,11 @@ class InventoryController extends Controller
         $inventory = Inventory::with('pharmacy')->find($id);
 
         if (!$inventory) {
-            return response()->json(['message' => 'Inventory record not found.'], 404);
+            return response()->json(['message' => __('messages.inventory_not_found')], 404);
         }
 
-        // Pharmacist may only update their own pharmacy's stock
         if ($authUser->role === 'Pharmacist' && $authUser->pharmacy_id !== $inventory->pharmacy_id) {
-            return response()->json(['message' => 'Pharmacists may only manage their own pharmacy inventory.'], 403);
+            return response()->json(['message' => __('messages.inventory_unauthorized')], 403);
         }
 
         $validated = $request->validate([
@@ -167,7 +165,7 @@ class InventoryController extends Controller
         $inventory->update($validated);
 
         return response()->json([
-            'message'   => 'Inventory updated successfully.',
+            'message'   => __('messages.inventory_updated'),
             'inventory' => $inventory->fresh()->load('medicine'),
         ]);
     }
@@ -227,17 +225,16 @@ class InventoryController extends Controller
         $inventory = Inventory::find($id);
 
         if (!$inventory) {
-            return response()->json(['message' => 'Inventory record not found.'], 404);
+            return response()->json(['message' => __('messages.inventory_not_found')], 404);
         }
 
-        // Pharmacist may only delete from their own pharmacy
         if ($authUser->role === 'Pharmacist' && $authUser->pharmacy_id !== $inventory->pharmacy_id) {
-            return response()->json(['message' => 'Pharmacists may only manage their own pharmacy inventory.'], 403);
+            return response()->json(['message' => __('messages.inventory_unauthorized')], 403);
         }
 
         $inventory->delete();
 
-        return response()->json(['message' => 'Medicine removed from pharmacy inventory.']);
+        return response()->json(['message' => __('messages.inventory_deleted')]);
     }
 
     
@@ -281,7 +278,7 @@ public function show($pharmacyId, $medicineId)
         ->first(); 
 
     if (!$item) {
-        return response()->json(['message' => 'الدواء غير موجود في هذه الصيدلية'], 404);
+        return response()->json(['message' => __('messages.medicine_not_in_pharmacy')], 404);
     }
 
   return response()->json([

@@ -37,13 +37,13 @@ class UserController extends Controller
         $authUser = $request->user();
 
         if ($authUser->user_id !== (int) $id && $authUser->role !== 'Admin') {
-            return response()->json(['message' => 'Unauthorized.'], 403);
+            return response()->json(['message' => __('messages.unauthorized')], 403);
         }
 
         $target = User::find($id);
 
         if (!$target) {
-            return response()->json(['message' => 'User not found.'], 404);
+            return response()->json(['message' => __('messages.user_not_found')], 404);
         }
 
         $rules = [
@@ -62,7 +62,7 @@ class UserController extends Controller
         $target->update($validated);
 
         return response()->json([
-            'message' => 'Profile updated successfully.',
+            'message' => __('messages.profile_updated'),
             'user'    => $target->fresh(),
         ]);
     }
@@ -103,7 +103,7 @@ public function toggleStatus(Request $request, $id)
     $target = User::find($id);
 
     if (!$target) {
-        return response()->json(['message' => 'User not found.'], 404);
+        return response()->json(['message' => __('messages.user_not_found')], 404);
     }
 
     $validated = $request->validate([
@@ -115,8 +115,8 @@ public function toggleStatus(Request $request, $id)
     $target->update($validated);
 
     return response()->json([
-        'message' => 'Status updated successfully.',
-        'user' => $target, //
+        'message' => __('messages.status_updated'),
+        'user' => $target,
     ]);
 }
 }

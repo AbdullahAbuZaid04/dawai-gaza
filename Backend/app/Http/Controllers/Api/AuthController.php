@@ -30,7 +30,7 @@ class AuthController extends Controller
         }
 
         if (!$user->is_active) {
-            return response()->json(['message' => 'الحساب غير مفعل.'], 403);
+            return response()->json(['message' => __('messages.account_inactive')], 403);
         }
 
         $token = $user->createToken('auth_token')->plainTextToken;
