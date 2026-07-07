@@ -60,8 +60,7 @@ class InventoryController extends Controller
         $pharmacy = Pharmacy::find($pharmacyId);
 
         if (!$pharmacy) {
-<<<<<<< HEAD
-            return response()->json(['message' => __('messages.pharmacy_not_found')], 404);
+            return response()->json(['message' => 'الصيدلية غير موجودة.'], 404);
         }
 
         $inventory = Inventory::with('medicine')
@@ -107,8 +106,9 @@ class InventoryController extends Controller
         'expiry_date' => 'nullable|date|after:today',
     ]);
 
+    // Pharmacist may only add to their own pharmacy
     if ($authUser->role === 'Pharmacist' && $authUser->pharmacy_id !== (int) $validated['pharmacy_id']) {
-        return response()->json(['message' => __('messages.inventory_unauthorized')], 403);
+        return response()->json(['message' => 'يمكن للصيادلة فقط إدارة مخزون صيدليتهم.'], 403);
     }
 
     // Enforce unique (pharmacy_id, medicine_id) constraint with a user-friendly error
@@ -118,7 +118,7 @@ class InventoryController extends Controller
 
     if ($exists) {
         return response()->json([
-            'message' => __('messages.inventory_duplicate'),
+            'message' => 'هذا الدواء موجود مسبقاً في مخزون هذه الصيدلية. استخدم PUT /api/inventory/{id} لتحديثه.',
         ], 422);
     }
 
@@ -143,11 +143,12 @@ class InventoryController extends Controller
         $inventory = Inventory::with('pharmacy')->find($id);
 
         if (!$inventory) {
-            return response()->json(['message' => __('messages.inventory_not_found')], 404);
+            return response()->json(['message' => 'سجل المخزون غير موجود.'], 404);
         }
 
+        // Pharmacist may only update their own pharmacy's stock
         if ($authUser->role === 'Pharmacist' && $authUser->pharmacy_id !== $inventory->pharmacy_id) {
-            return response()->json(['message' => __('messages.inventory_unauthorized')], 403);
+            return response()->json(['message' => 'يمكن للصيادلة فقط إدارة مخزون صيدليتهم.'], 403);
         }
 
         $validated = $request->validate([
@@ -166,7 +167,7 @@ class InventoryController extends Controller
         $inventory->update($validated);
 
         return response()->json([
-            'message'   => __('messages.inventory_updated'),
+            'message'   => 'تم تحديث المخزون بنجاح.',
             'inventory' => $inventory->fresh()->load('medicine'),
         ]);
     }
@@ -226,19 +227,20 @@ class InventoryController extends Controller
         $inventory = Inventory::find($id);
 
         if (!$inventory) {
-            return response()->json(['message' => __('messages.inventory_not_found')], 404);
+            return response()->json(['message' => 'سجل المخزون غير موجود.'], 404);
         }
 
+        // Pharmacist may only delete from their own pharmacy
         if ($authUser->role === 'Pharmacist' && $authUser->pharmacy_id !== $inventory->pharmacy_id) {
-            return response()->json(['message' => __('messages.inventory_unauthorized')], 403);
+            return response()->json(['message' => 'يمكن للصيادلة فقط إدارة مخزون صيدليتهم.'], 403);
         }
 
         $inventory->delete();
 
-        return response()->json(['message' => __('messages.inventory_deleted')]);
+        return response()->json(['message' => 'تم إزالة الدواء من مخزون الصيدلية.']);
     }
 
-
+    
 
 public function index(Request $request)
 {
@@ -261,7 +263,7 @@ public function index(Request $request)
         'pharmacy_name' => $inv->pharmacy->pharmacy_name_ar,
         'quantity'      => $inv->quantity,
         'pharmacy_id'   => $inv->pharmacy->pharmacy_id,
-        'location'      => $inv->pharmacy->address_note ?? __('messages.not_available'),
+        'location'      => $inv->pharmacy->address_note ?? 'غير متوفر',
         'name_ar'       => $inv->medicine->name_ar,
         'strength'      => $inv->medicine->strength,
         'dosage_form'   => $inv->medicine->dosage_form,
@@ -279,7 +281,7 @@ public function show($pharmacyId, $medicineId)
         ->first(); 
 
     if (!$item) {
-        return response()->json(['message' => __('messages.medicine_not_in_pharmacy')], 404);
+        return response()->json(['message' => 'الدواء غير موجود في هذه الصيدلية'], 404);
     }
 
   return response()->json([

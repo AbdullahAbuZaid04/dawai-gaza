@@ -58,7 +58,7 @@ public function registerRequest(Request $request)
             'pharmacy_name_ar' => $request->pharmacy_name_ar,
             'pharmacy_name_en' => $request->pharmacy_name_en ?: $request->pharmacy_name_ar,
             'governorate_id'   => $request->governorate_id,
-            'area_name'        => __('messages.not_specified_yet'),
+            'area_name'        => 'لم يحدد بعد',
             'address_note'     => $request->address_note,
             'license_number'   => $request->license_number,
             'open_time'        => $request->open_time,
@@ -80,7 +80,7 @@ public function registerRequest(Request $request)
         ]);
 
         return response()->json([
-            'message' => __('messages.registration_sent'),
+            'message' => 'تم إرسال طلبك للمراجعة',
             'pharmacy' => $this->formatPharmacy($pharmacy->load(['governorate', 'users'])),
         ], 201);
     });
@@ -94,7 +94,7 @@ public function registerRequest(Request $request)
         $p = Pharmacy::with(['governorate', 'inventory.medicine', 'promotions', 'users' => fn($q) => $q->orderBy('user_id')->limit(1)])->find($id);
 
         if (!$p) {
-            return response()->json(['message' => __('messages.pharmacy_not_found')], 404);
+            return response()->json(['message' => 'الصيدلية غير موجودة'], 404);
         }
 
         $data = $this->formatPharmacy($p);
