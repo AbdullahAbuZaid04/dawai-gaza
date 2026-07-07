@@ -46,7 +46,7 @@ function PharmacistDashboard() {
     };
 
     if (pharmacyId) fetchData();
-  }, [user]);
+  }, [user, pharmacyId]);
 
   const lowStockItems = medicines.filter((m) => m.stock_status === "Low Stock");
   if (loading) return <div className="p-12 text-center">جاري تحميل لوحة التحكم...</div>;

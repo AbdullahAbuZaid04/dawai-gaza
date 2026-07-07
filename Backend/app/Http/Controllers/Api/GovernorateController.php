@@ -34,7 +34,7 @@ class GovernorateController extends Controller
         $governorate = Governorate::find($id);
 
         if (!$governorate) {
-            return response()->json(['message' => 'Governorate not found.'], 404);
+            return response()->json(['message' => 'المحافظة غير موجودة.'], 404);
         }
 
         $centers = HealthCenter::with('governorate')
@@ -74,7 +74,7 @@ class GovernorateController extends Controller
         $governorate = Governorate::find($id);
 
         if (!$governorate) {
-            return response()->json(['message' => 'Governorate not found.'], 404);
+            return response()->json(['message' => 'المحافظة غير موجودة.'], 404);
         }
 
         $pharmacies = Pharmacy::with(['governorate', 'inventory.medicine'])
