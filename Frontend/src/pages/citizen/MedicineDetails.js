@@ -55,7 +55,6 @@ const MedicineDetails = () => {
   }
 
   const { medicine, pharmacy } = data;
-  console.log("pharmacy Details:", pharmacy);
 
   return (
     <div className="min-h-screen bg-ui-gray/40 text-right py-8 md:py-16">
