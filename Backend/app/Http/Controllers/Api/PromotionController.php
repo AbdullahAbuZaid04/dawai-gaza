@@ -64,17 +64,17 @@ public function store(Request $request)
         $promotion = Promotion::find($id);
 
         if (!$promotion) {
-            return response()->json(['message' => 'Promotion not found.'], 404);
+            return response()->json(['message' => 'العرض غير موجود.'], 404);
         }
 
         // Pharmacist may only deactivate their own pharmacy's promotions
         if ($authUser->role === 'Pharmacist' && $promotion->pharmacy_id !== $authUser->pharmacy_id) {
-            return response()->json(['message' => 'Unauthorized.'], 403);
+            return response()->json(['message' => 'غير مصرح لك.'], 403);
         }
 
         $promotion->update(['is_active' => false]);
 
-        return response()->json(['message' => 'Promotion deactivated successfully.']);
+        return response()->json(['message' => 'تم تعطيل العرض بنجاح.']);
     }
 
     /**
@@ -151,10 +151,10 @@ public function update(Request $request, $id)
     $authUser = $request->user();
     $promotion = Promotion::find($id);
 
-    if (!$promotion) return response()->json(['message' => 'Promotion not found.'], 404);
+    if (!$promotion) return response()->json(['message' => 'العرض غير موجود.'], 404);
 
     if ($authUser->role === 'Pharmacist' && $promotion->pharmacy_id !== $authUser->pharmacy_id) {
-        return response()->json(['message' => 'Unauthorized.'], 403);
+        return response()->json(['message' => 'غير مصرح لك.'], 403);
     }
 
     $validated = $request->validate([

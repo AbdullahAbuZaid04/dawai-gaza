@@ -43,7 +43,7 @@ public function index(Request $request)
         $medicine = Medicine::with(['inventory.pharmacy.governorate'])->find($id);
 
         if (!$medicine) {
-            return response()->json(['message' => 'Medicine not found'], 404);
+            return response()->json(['message' => 'الدواء غير موجود'], 404);
         }
 
         return response()->json([
@@ -99,7 +99,7 @@ public function index(Request $request)
 
         if ($exists) {
             return response()->json([
-                'message' => 'A medicine with the same name, dosage form, and strength already exists.',
+                'message' => 'يوجد دواء بنفس الاسم والشكل الدوائي والتركيز مسبقاً.',
             ], 422);
         }
 
@@ -117,7 +117,7 @@ public function index(Request $request)
         $medicine = Medicine::find($id);
 
         if (!$medicine) {
-            return response()->json(['message' => 'Medicine not found.'], 404);
+            return response()->json(['message' => 'الدواء غير موجود.'], 404);
         }
 
         $validated = $request->validate([
@@ -135,7 +135,7 @@ public function index(Request $request)
         $medicine->update($validated);
 
         return response()->json([
-            'message'  => 'Medicine updated successfully.',
+            'message'  => 'تم تحديث الدواء بنجاح.',
             'medicine' => $medicine->fresh(),
         ]);
     }

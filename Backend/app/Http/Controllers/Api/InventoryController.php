@@ -60,7 +60,7 @@ class InventoryController extends Controller
         $pharmacy = Pharmacy::find($pharmacyId);
 
         if (!$pharmacy) {
-            return response()->json(['message' => 'Pharmacy not found.'], 404);
+            return response()->json(['message' => 'الصيدلية غير موجودة.'], 404);
         }
 
         $inventory = Inventory::with('medicine')
@@ -108,7 +108,7 @@ class InventoryController extends Controller
 
     // Pharmacist may only add to their own pharmacy
     if ($authUser->role === 'Pharmacist' && $authUser->pharmacy_id !== (int) $validated['pharmacy_id']) {
-        return response()->json(['message' => 'Pharmacists may only manage their own pharmacy inventory.'], 403);
+        return response()->json(['message' => 'يمكن للصيادلة فقط إدارة مخزون صيدليتهم.'], 403);
     }
 
     // Enforce unique (pharmacy_id, medicine_id) constraint with a user-friendly error
@@ -118,7 +118,7 @@ class InventoryController extends Controller
 
     if ($exists) {
         return response()->json([
-            'message' => 'This medicine already exists in this pharmacy\'s inventory. Use PUT /api/inventory/{id} to update it.',
+            'message' => 'هذا الدواء موجود مسبقاً في مخزون هذه الصيدلية. استخدم PUT /api/inventory/{id} لتحديثه.',
         ], 422);
     }
 
@@ -143,12 +143,12 @@ class InventoryController extends Controller
         $inventory = Inventory::with('pharmacy')->find($id);
 
         if (!$inventory) {
-            return response()->json(['message' => 'Inventory record not found.'], 404);
+            return response()->json(['message' => 'سجل المخزون غير موجود.'], 404);
         }
 
         // Pharmacist may only update their own pharmacy's stock
         if ($authUser->role === 'Pharmacist' && $authUser->pharmacy_id !== $inventory->pharmacy_id) {
-            return response()->json(['message' => 'Pharmacists may only manage their own pharmacy inventory.'], 403);
+            return response()->json(['message' => 'يمكن للصيادلة فقط إدارة مخزون صيدليتهم.'], 403);
         }
 
         $validated = $request->validate([
@@ -167,7 +167,7 @@ class InventoryController extends Controller
         $inventory->update($validated);
 
         return response()->json([
-            'message'   => 'Inventory updated successfully.',
+            'message'   => 'تم تحديث المخزون بنجاح.',
             'inventory' => $inventory->fresh()->load('medicine'),
         ]);
     }
@@ -227,17 +227,17 @@ class InventoryController extends Controller
         $inventory = Inventory::find($id);
 
         if (!$inventory) {
-            return response()->json(['message' => 'Inventory record not found.'], 404);
+            return response()->json(['message' => 'سجل المخزون غير موجود.'], 404);
         }
 
         // Pharmacist may only delete from their own pharmacy
         if ($authUser->role === 'Pharmacist' && $authUser->pharmacy_id !== $inventory->pharmacy_id) {
-            return response()->json(['message' => 'Pharmacists may only manage their own pharmacy inventory.'], 403);
+            return response()->json(['message' => 'يمكن للصيادلة فقط إدارة مخزون صيدليتهم.'], 403);
         }
 
         $inventory->delete();
 
-        return response()->json(['message' => 'Medicine removed from pharmacy inventory.']);
+        return response()->json(['message' => 'تم إزالة الدواء من مخزون الصيدلية.']);
     }
 
     
