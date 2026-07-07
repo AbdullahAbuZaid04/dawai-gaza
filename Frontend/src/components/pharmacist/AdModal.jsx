@@ -2,7 +2,7 @@ const AdModal = ({ isOpen, onClose, onSubmit, formData, setFormData }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
+    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4 overflow-y-auto">
       <div className="bg-ui-card w-full max-w-lg rounded-3xl p-6 sm:p-8 border border-ui-border shadow-2xl relative">
         <h3 className="text-xl sm:text-2xl font-black text-content-main mb-6">نشر إعلان جديد</h3>
 

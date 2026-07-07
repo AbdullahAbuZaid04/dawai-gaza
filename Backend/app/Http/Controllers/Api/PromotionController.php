@@ -38,6 +38,7 @@ public function store(Request $request)
         'center_id'   => 'nullable|integer|exists:health_centers,center_id',
         'title'       => 'required|string|max:200',
         'description' => 'nullable|string',
+        'image'       => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
         'image_url'   => 'nullable|url|max:255',
         'start_date'  => 'required|date',
         'end_date'    => 'required|date|after:start_date',
@@ -47,6 +48,11 @@ public function store(Request $request)
 
     if ($authUser->role === 'Pharmacist') {
         $validated['pharmacy_id'] = $authUser->pharmacy_id;
+    }
+
+    if ($request->hasFile('image')) {
+        $path = $request->file('image')->store('promotions', 'public');
+        $validated['image_url'] = asset('storage/' . $path);
     }
 
     $promotion = Promotion::create($validated);
@@ -160,9 +166,15 @@ public function update(Request $request, $id)
     $validated = $request->validate([
         'title'       => 'sometimes|string|max:200',
         'description' => 'nullable|string',
+        'image'       => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
         'priority'    => 'sometimes|in:normal,urgent,info',
         'is_active'   => 'sometimes|boolean',
     ]);
+
+    if ($request->hasFile('image')) {
+        $path = $request->file('image')->store('promotions', 'public');
+        $validated['image_url'] = asset('storage/' . $path);
+    }
 
     $promotion->update($validated);
     return response()->json($this->formatPromotion($promotion->load(['pharmacy', 'healthCenter'])));
