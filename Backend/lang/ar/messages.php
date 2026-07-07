@@ -38,7 +38,14 @@ return [
     // Governorates
     'governorate_not_found' => 'المحافظة غير موجودة.',
 
+    // Violations
+    'violation_not_found' => 'المخالفة غير موجودة.',
+    'unknown' => 'غير معروف',
+    'unspecified' => 'غير محدد',
+
     // General
+    'not_available' => 'غير متوفر',
+    'not_specified_yet' => 'لم يحدد بعد',
     'operation_success' => 'تمت العملية بنجاح.',
     'operation_failed' => 'فشلت العملية. يرجى المحاولة مرة أخرى.',
 ];

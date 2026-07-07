@@ -58,7 +58,7 @@ public function registerRequest(Request $request)
             'pharmacy_name_ar' => $request->pharmacy_name_ar,
             'pharmacy_name_en' => $request->pharmacy_name_en ?: $request->pharmacy_name_ar,
             'governorate_id'   => $request->governorate_id,
-            'area_name'        => 'لم يحدد بعد',
+            'area_name'        => __('messages.not_specified_yet'),
             'address_note'     => $request->address_note,
             'license_number'   => $request->license_number,
             'open_time'        => $request->open_time,
@@ -80,7 +80,7 @@ public function registerRequest(Request $request)
         ]);
 
         return response()->json([
-            'message' => 'تم إرسال طلبك للمراجعة',
+            'message' => __('messages.registration_sent'),
             'pharmacy' => $this->formatPharmacy($pharmacy->load(['governorate', 'users'])),
         ], 201);
     });

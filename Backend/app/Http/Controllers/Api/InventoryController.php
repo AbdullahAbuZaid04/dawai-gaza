@@ -260,7 +260,7 @@ public function index(Request $request)
         'pharmacy_name' => $inv->pharmacy->pharmacy_name_ar,
         'quantity'      => $inv->quantity,
         'pharmacy_id'   => $inv->pharmacy->pharmacy_id,
-        'location'      => $inv->pharmacy->address_note ?? 'غير متوفر',
+        'location'      => $inv->pharmacy->address_note ?? __('messages.not_available'),
         'name_ar'       => $inv->medicine->name_ar,
         'strength'      => $inv->medicine->strength,
         'dosage_form'   => $inv->medicine->dosage_form,
