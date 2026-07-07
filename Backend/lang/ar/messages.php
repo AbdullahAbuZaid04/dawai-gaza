@@ -48,4 +48,12 @@ return [
     'not_specified_yet' => 'لم يحدد بعد',
     'operation_success' => 'تمت العملية بنجاح.',
     'operation_failed' => 'فشلت العملية. يرجى المحاولة مرة أخرى.',
+
+    // HTTP Exceptions (global handler)
+    'not_found' => 'المورد المطلوب غير موجود.',
+    'method_not_allowed' => 'الطريقة غير مسموح بها لهذا المسار.',
+    'too_many_requests' => 'لقد تجاوزت الحد المسموح به من الطلبات. يرجى المحاولة لاحقاً.',
+    'server_error' => 'حدث خطأ في الخادم. يرجى المحاولة مرة أخرى لاحقاً.',
+    'validation_failed' => 'البيانات المدخلة غير صحيحة.',
+    'unauthenticated_api' => 'غير مصادق عليه. يرجى تسجيل الدخول أولاً.',
 ];

@@ -60,6 +60,7 @@ class InventoryController extends Controller
         $pharmacy = Pharmacy::find($pharmacyId);
 
         if (!$pharmacy) {
+<<<<<<< HEAD
             return response()->json(['message' => __('messages.pharmacy_not_found')], 404);
         }
 
@@ -237,7 +238,7 @@ class InventoryController extends Controller
         return response()->json(['message' => __('messages.inventory_deleted')]);
     }
 
-    
+
 
 public function index(Request $request)
 {
