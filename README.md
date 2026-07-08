@@ -1,127 +1,285 @@
-# دوائي (Dawai)
 
-A centralized digital platform bridging citizens, pharmacies, and the Pharmacists' Syndicate in the Gaza Strip. Citizens can locate medications, verify prices, and check availability; pharmacists manage digital inventory; the syndicate maintains oversight.
+<div dir="rtl">
 
-## Architecture
+# دوائي
+
+<p align="center">
+  <a href="https://dawai-gaza.vercel.app/"><strong>عرض المشروع</strong></a>
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" alt="React" />
+  <img src="https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white" alt="TailwindCSS" />
+  <img src="https://img.shields.io/badge/Laravel-FF2D20?style=for-the-badge&logo=laravel&logoColor=white" alt="Laravel" />
+  <img src="https://img.shields.io/badge/PHP_8.3-777BB4?style=for-the-badge&logo=php&logoColor=white" alt="PHP" />
+  <img src="https://img.shields.io/badge/MySQL-00758F?style=for-the-badge&logo=mysql&logoColor=white" alt="MySQL" />
+</p>
+
+---
+
+## وصف المشروع
+
+**دوائي** منصة ويب شاملة تهدف إلى معالجة أزمة الوصول إلى الدواء في **قطاع غزة**. تعمل كجسر يربط بين المواطنين والصيادلة ونقابة الصيادلة، من خلال إتاحة البحث عن الأدوية، وتحديد الصيدليات القريبة، ومتابعة توفر الأدوية وأسعارها، والاطلاع على النشرات الرسمية.
+
+تدعم المنصة ثلاثة أدوار رئيسية:
+
+- **النقابة:** تُشرف على المنظومة بأكملها — إدارة الأدوية، ومراقبة الصيدليات، والموافقة على طلبات التسجيل، وإصدار النشرات الرسمية، وتتبع مخالفات الأسعار.
+- **الصيدلاني:** يُدير مخزون صيدليته، وينشر إعلانات ترويجية، ويُحدّث بيانات الأدوية المتاحة.
+- **المواطن:** يبحث عن الأدوية والصيدليات، ويطّلع على الأسعار والنشرات الرسمية، ويصل إلى ملفات الصيدليات وخرائط مواقعها.
+
+---
+
+## المميزات
+
+### مميزات النقابة
+- **لوحة التحكم:** نظرة عامة على إحصائيات المنظومة (أدوية، صيدليات، مستخدمون، مخالفات).
+- **إدارة الأدوية:** عمليات CRUD كاملة على قاعدة بيانات الأدوية.
+- **إدارة الصيدليات:** عرض وإدارة جميع الصيدليات المسجلة.
+- **نظام الموافقات:** مراجعة طلبات تسجيل الصيدليات والبت فيها.
+- **مراقبة الأسعار:** رصد مخالفات الأسعار عبر الصيدليات وتوثيقها.
+- **النشرات الرسمية:** نشر إعلانات وبلاغات موجهة لجميع المستخدمين.
+
+### مميزات الصيدلاني
+- **لوحة التحكم:** نظرة سريعة على حالة المخزون والإعلانات.
+- **إدارة المخزون:** إضافة وتعديل وحذف الأدوية مع بيانات الأسعار والتوفر.
+- **مدير الإعلانات:** إنشاء وإدارة الإعلانات الترويجية للصيدلية.
+
+### مميزات المواطن
+- **الصفحة الرئيسية:** واجهة الهبوط مع إمكانية البحث الفوري.
+- **البحث عن دواء:** البحث بالاسم واستعراض الصيدليات المتوفر فيها.
+- **تفاصيل الدواء:** عرض معلومات الدواء الكاملة مع الأسعار وأماكن التوفر.
+- **البحث عن صيدلية:** تصفح الصيدليات والبحث بالاسم أو الموقع.
+- **ملف الصيدلية:** عرض تفاصيل الصيدلية وموقعها على خريطة تفاعلية.
+- **النشرات الرسمية:** قراءة الإعلانات الصادرة عن نقابة الصيادلة.
+
+---
+
+## معمارية النظام
+
+يتبع النظام نمط **Client-Server Architecture** مع فصل واضح بين المسؤوليات:
+
+| الطبقة | التقنية | الوصف |
+|--------|---------|-------|
+| **الواجهة الأمامية** | React.js + Tailwind CSS + MUI | عرض واجهة المستخدم والتفاعل مع API |
+| **الخادم الخلفي** | Laravel 13 + PHP 8.3 | منطق الأعمال والمصادقة ونقاط الـ API |
+| **قاعدة البيانات** | MySQL (TiDB Serverless) | تخزين البيانات: المستخدمون، الأدوية، الصيدليات، المخزون |
+| **الخرائط** | Leaflet + React Leaflet | عرض مواقع الصيدليات على خرائط تفاعلية |
+| **الرسوم المتحركة** | Framer Motion + GSAP | انتقالات وتأثيرات بصرية سلسة |
+
+*يتم التواصل بين الواجهة والخادم عبر **RESTful APIs** مؤمّنة بـ **Laravel Sanctum**.*
+
+---
+
+<div dir="ltr">
+
+## Project Structure
 
 ```
-/dawai/
+dawai/
 ├── Backend/          # Laravel 13 API
 │   ├── app/
-│   │   ├── Http/Controllers/Api/   # Controllers (auth, pharmacy, medicine, …)
-│   │   └── Models/                 # Eloquent models
-│   ├── routes/api.php              # API route definitions
-│   ├── database/migrations/        # Schema migrations
-│   └── database/seeders/           # Seeders (HubSeeder, ViolationSeeder)
-└── Frontend/         # React 19 SPA
-    ├── src/
-    │   ├── components/   # Reusable UI components
-    │   ├── pages/        # Page-level components
-    │   ├── context/      # React Context (Auth, Data)
-    │   └── config/       # API base URL config
-    └── public/
+│   │   ├── Http/
+│   │   │   └── Controllers/Api/
+│   │   │       ├── AuthController.php
+│   │   │       ├── MedicineController.php
+│   │   │       ├── PharmacyController.php
+│   │   │       ├── InventoryController.php
+│   │   │       ├── PromotionController.php
+│   │   │       ├── ViolationController.php
+│   │   │       ├── GovernorateController.php
+│   │   │       └── UserController.php
+│   │   └── Models/
+│   │       ├── Medicine.php
+│   │       ├── Pharmacy.php
+│   │       ├── Inventory.php
+│   │       ├── Promotion.php
+│   │       ├── Violation.php
+│   │       ├── Governorate.php
+│   │       └── User.php
+│   └── ...
+└── Frontend/         # React.js App
+    └── src/
+        └── pages/
+            ├── citizen/        # Citizen pages
+            ├── pharmacist/     # Pharmacist pages
+            └── syndicate/      # Syndicate pages
 ```
 
-## Tech Stack
+</div>
 
-| Tier      | Technology                                      |
-|-----------|-------------------------------------------------|
-| Backend   | Laravel 13, PHP 8.2+, Sanctum, MySQL            |
-| Frontend  | React 19, Tailwind CSS 3, MUI 7, GSAP           |
-| API       | RESTful JSON (Axios)                            |
+---
 
-## Test Credentials
 
-> **⚠️ WARNING:** Change these credentials immediately in production!
+## لقطات الشاشة
 
-| Role        | Email                          | Password    |
-|-------------|--------------------------------|-------------|
-| Admin       | admin@dawai.ps                 | admin123    |
-| Pharmacist  | ahmed.khaled@dawai.ps          | pharm123    |
-| Pharmacist  | mona.sami@dawai.ps             | pharm123    |
-| Pharmacist  | hassan.shifa@dawai.ps          | pharm123    |
-| Pharmacist  | laila.awda@dawai.ps            | pharm123    |
-| Pharmacist  | omar.icrc@dawai.ps             | pharm123    |
+### الصفحة الرئيسية
 
-## Local Setup
+| الصفحة الرئيسية | لماذا تختار دوائي؟ | كيف يعمل دوائي؟ |
+| :---: | :---: | :---: |
+| <img src="Screenshots/home-page.png" width="380"/> | <img src="Screenshots/why-choose-dawai.png" width="380"/> | <img src="Screenshots/how-it-works.png" width="380"/> |
 
-### Prerequisites
-- PHP 8.2+, Composer, Node.js (LTS), MySQL
+### المصادقة
 
-### Backend
+| تسجيل الدخول | تسجيل صيدلية جديدة |
+| :---: | :---: |
+| <img src="Screenshots/login-page.png" width="380"/> | <img src="Screenshots/sign-up-pharmacy.png" width="380"/> |
+
+### تجربة المواطن
+
+| البحث عن دواء | تفاصيل الدواء |
+| :---: | :---: |
+| <img src="Screenshots/medicine-page.png" width="380"/> | <img src="Screenshots/details-of-specific-medicine.png" width="380"/> |
+
+| البحث عن صيدلية | ملف الصيدلية |
+| :---: | :---: |
+| <img src="Screenshots/pharmacy-page.png" width="380"/> | <img src="Screenshots/pharmacy-profile.png" width="380"/> |
+
+### لوحة تحكم الصيدلية
+
+| لوحة تحكم الصيدلية | إدارة المخزون |
+| :---: | :---: |
+| <img src="Screenshots/dashboard-pharmacy-page.png" width="380"/> | <img src="Screenshots/inventory-page.png" width="380"/> |
+
+### لوحة تحكم النقابة
+
+| لوحة تحكم النقابة | مراقبة الأسعار |
+| :---: | :---: | 
+| <img src="Screenshots/dashboard-admin-page.png" width="380"/> | <img src="Screenshots/price-monitoring-page.png" width="380"/> |
+
+| طلبات اعتماد الصيدليات | النشرات الرسمية |
+| :---: | :---: |
+| <img src="Screenshots/requests-page.png" width="380"/> | <img src="Screenshots/official-announcements-page.png" width="380"/> |
+
+---
+
+## Installation & Setup
+
+### 1. Clone the Repository
 ```bash
-cd Backend
-cp .env.example .env          # edit DB credentials
-composer install
-php artisan key:generate
-php artisan storage:link
-php artisan migrate --seed
-php artisan serve              # http://localhost:8000
+git clone https://github.com/AbdullahAbuZaid04/dawai-gaza.git
+cd dawai-gaza
 ```
 
-### Frontend
-```bash
-cd Frontend
-npm install
-cp .env.production .env        # or create .env.local with REACT_APP_API_URL
-npm start                      # http://localhost:3000
-```
+### 2. Setup Backend (Laravel)
 
-## Deployment
+1. Navigate to the backend folder:
+   ```bash
+   cd Backend
+   ```
+2. Install PHP dependencies:
+   ```bash
+   composer install
+   ```
+3. Copy the environment file and configure your variables:
+   ```bash
+   cp .env.example .env
+   ```
+   Then edit `.env` with your values:
+   ```env
+   APP_NAME=Dawai
+   APP_URL=http://localhost:8000
 
-### Option A: Vercel (Frontend) + Shared Hosting (Backend)
+   DB_CONNECTION=mysql
+   DB_HOST=your_db_host
+   DB_PORT=3306
+   DB_DATABASE=your_db_name
+   DB_USERNAME=your_db_user
+   DB_PASSWORD=your_db_password
 
-**Frontend → Vercel (free)**
-1. Push to GitHub
-2. Import repo in Vercel
-3. Set `Root Directory` → `Frontend`
-4. Add env variable `REACT_APP_API_URL` → your backend URL
-5. Deploy (auto-builds on push)
+   ALLOWED_ORIGINS=http://localhost:3000
+   SANCTUM_STATEFUL_DOMAINS=localhost:3000
+   ```
+4. Generate the application key:
+   ```bash
+   php artisan key:generate
+   ```
+5. Run database migrations:
+   ```bash
+   php artisan migrate
+   ```
+6. *(Optional)* Seed the database with sample data:
+   ```bash
+   php artisan db:seed
+   ```
+7. Start the development server:
+   ```bash
+   php artisan serve
+   ```
 
-**Backend → Hostinger / cPanel ($3–10/mo)**
-1. Upload `Backend/` contents to server
-2. Create MySQL database and user
-3. Copy `.env.example` to `.env`, edit:
-   - `APP_ENV=production`, `APP_DEBUG=false`
-   - `DB_CONNECTION=mysql`, fill in DB credentials
-   - `APP_URL=https://your-domain.com`
-   - `SANCTUM_STATEFUL_DOMAINS=your-frontend.vercel.app`
-4. Run `php artisan key:generate`
-5. Run `php artisan migrate --seed`
-6. Point your domain to `Backend/public/`
+### 3. Setup Frontend (React)
 
-### Option B: Render.com (both, free tier)
-1. Create **Web Service** → point to `Backend/` → start command `php artisan serve --host=0.0.0.0 --port=10000`
-2. Create **Static Site** → point to `Frontend/` → build command `npm run build` → publish dir `build`
-3. Add env vars in Render dashboard
+1. Navigate to the frontend folder:
+   ```bash
+   cd ../Frontend
+   ```
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Create a `.env.local` file and set the API URL:
+   ```env
+   REACT_APP_API_URL=http://localhost:8000/api
+   ```
+4. Start the development server:
+   ```bash
+   npm start
+   ```
 
-### Environment Variables
+The app will be available at `http://localhost:3000`
 
-| Variable                  | Required | Default                    | Description              |
-|---------------------------|----------|----------------------------|--------------------------|
-| `REACT_APP_API_URL`       | Frontend | `http://localhost:8000/api`| Backend API base URL     |
-| `APP_ENV`                 | Backend  | `production`               | App environment          |
-| `APP_DEBUG`               | Backend  | `false`                    | Debug mode (always false in prod) |
-| `DB_CONNECTION`           | Backend  | `mysql`                    | Database driver          |
-| `SANCTUM_STATEFUL_DOMAINS`| Backend  | —                          | Frontend domain for SPA auth |
-| `ALLOWED_ORIGINS`         | Backend  | `http://localhost:3000`     | CORS allowed origins     |
+---
 
-## API Endpoints
+## توثيق الـ API
 
-| Method | Endpoint                              | Auth         | Description              |
-|--------|---------------------------------------|--------------|--------------------------|
-| POST   | `/api/auth/login`                     | Public       | Login (throttled)        |
-| POST   | `/api/auth/register`                  | Public       | Register (throttled)     |
-| GET    | `/api/pharmacies`                     | Public       | List pharmacies          |
-| GET    | `/api/medicines`                      | Public       | Search medicines         |
-| GET    | `/api/inventory`                      | Public       | All inventory            |
-| GET    | `/api/promotions`                     | Public       | All promotions           |
-| POST   | `/api/logout`                         | Sanctum      | Logout                   |
-| GET    | `/api/users/profile`                  | Sanctum      | User profile             |
-| POST   | `/api/pharmacies/{id}/inventory`      | Pharm/Admin  | Add inventory item       |
-| POST   | `/api/promotions`                     | Pharm/Admin  | Create promotion         |
-| PATCH  | `/api/violations/{id}/status`         | Admin        | Update violation status  |
+التوثيق الكامل لنقاط الـ API متوفر في:
+- [`API_JSON_Part1.md`](./API_JSON_Part1.md) — المصادقة، الأدوية، الصيدليات
+- [`API_JSON_Part2.md`](./API_JSON_Part2.md) — المخزون، العروض الترويجية، المخالفات، النشرات
 
-## License
+---
 
-MIT — see [LICENSE](LICENSE)
+## التقنيات المستخدمة
+
+| الفئة | التقنية |
+|-------|---------|
+| إطار الواجهة الأمامية | React.js 19 |
+| مكتبة واجهة المستخدم | Material UI (MUI) v7 |
+| التنسيق | Tailwind CSS v3 |
+| الرسوم المتحركة | Framer Motion, GSAP |
+| الخرائط | Leaflet, React-Leaflet |
+| طلبات HTTP | Axios |
+| إطار الخادم الخلفي | Laravel 13 |
+| لغة البرمجة | PHP 8.3 |
+| المصادقة | Laravel Sanctum |
+| قاعدة البيانات | MySQL (TiDB Serverless) |
+| نشر الواجهة | Vercel |
+| نشر الخادم | Railway |
+
+---
+
+## المشرف الأكاديمي
+
+تم تطوير هذا المشروع تحت الإشراف والتوجيه من قِبل: **أ.د. حاتم حماد**
+
+---
+
+## فريق العمل
+
+الفريق الذي أنجز هذا المشروع:
+
+| **عبدالله أبوزيد** | **يوسف اللحام** | **هاني الخطيب** | **عبدالله الهنداوي** |
+| :---: | :---: | :---: | :---: |
+| مطور واجهة أمامية | مطور خادم خلفي | مطور خادم خلفي | مطور قواعد بيانات |
+
+---
+
+<p align="center">
+  <sub>طُوِّر بواسطة فريق دوائي — © 2026 جميع الحقوق محفوظة</sub>
+</p>
+
+<p align="center">
+  <a href="#دوائي">
+    <img src="https://img.shields.io/badge/Back%20To%20Top-⬆️-gray?style=flat-square" alt="العودة للأعلى" />
+  </a>
+</p>
+
+</div>
