@@ -13,13 +13,21 @@ class PromotionController extends Controller
      * GET /api/promotions
      * List active, non-expired promotions/campaigns. Public.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $promotions = Promotion::with(['pharmacy', 'healthCenter'])
+        $query = Promotion::with(['pharmacy', 'healthCenter'])
             ->where('is_active', true)
-            ->where('end_date', '>=', now())
-            ->get()
-            ->map(fn($p) => $this->formatPromotion($p));
+            ->where('end_date', '>=', now());
+
+        if ($request->query('type') === 'circular') {
+            $query->whereNull('pharmacy_id')->whereNull('center_id');
+        } elseif ($request->query('type') === 'advertisement') {
+            $query->where(function ($q) {
+                $q->whereNotNull('pharmacy_id')->orWhereNotNull('center_id');
+            });
+        }
+
+        $promotions = $query->get()->map(fn($p) => $this->formatPromotion($p));
 
         return response()->json($promotions);
     }
