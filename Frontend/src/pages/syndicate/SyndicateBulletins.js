@@ -21,7 +21,7 @@ function Bulletins() {
 
   const fetchBulletins = useCallback(async () => {
     try {
-      const res = await axios.get(`${API_BASE_URL}/promotions`, config);
+      const res = await axios.get(`${API_BASE_URL}/promotions?type=circular`, config);
       setBulletins(res.data);
     } catch (err) {
       console.error("خطأ في  التعاميم", err);

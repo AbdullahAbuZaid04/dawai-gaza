@@ -17,7 +17,7 @@ export default function CitizenBulletins() {
     const fetchData = async () => {
       try {
         const centersRes = await axios.get(`${API_BASE_URL}/centers`);
-        const promosRes = await axios.get(`${API_BASE_URL}/promotions`);
+        const promosRes = await axios.get(`${API_BASE_URL}/promotions?type=advertisement`);
 
         setBulletins(centersRes.data);
         setOffers(promosRes.data);

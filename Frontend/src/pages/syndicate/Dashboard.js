@@ -47,7 +47,7 @@ function SyndicateDashboard() {
 
         setPending(pendingRequests);
 
-        const promotionsRes = await axios.get(`${API_BASE_URL}/promotions`);
+        const promotionsRes = await axios.get(`${API_BASE_URL}/promotions?type=circular`);
         setPromotionsCount(Array.isArray(promotionsRes.data) ? promotionsRes.data.length : promotionsRes.data?.data?.length || 0);
       } catch (error) {
         console.error("خطأ  :", error);
